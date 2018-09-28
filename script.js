@@ -18,6 +18,7 @@ const fields = {
 }
 
 let incomes = [];
+let expenses = [];
 
 
 let personAccount = {
@@ -87,8 +88,14 @@ let personAccount = {
     this.expense.push(newExpense);
     this.accountBalance();
     let expenseI = document.createElement('div');
-    expenseI.innerHTML = `${expenseKey}: ${expenseValue} € ${displayDateTime()}`;
+    let dateTime = displayDateTime();
+    expenseI.innerHTML = `${expenseKey}: ${expenseValue} € ${dateTime}`;
     fields.expense.appendChild(expenseI);
+    let thisExpense = {};
+    thisExpense.expenseKey = expenseKey;
+    thisExpense.expenseValue = expenseValue;
+    thisExpense.dateTime = dateTime;
+    expenses.push(thisExpense);
   },
   accountBalance: function () {
     this.balance = this.totalIncome() - this.totalExpense();
@@ -153,7 +160,17 @@ function deleteAndCalculateIncome() {
 
 function deleteAndCalculateExpense() {
   personAccount.expense.splice(-1, 1)
-  console.log(personAccount.expense);
+  expenses.splice(-1, 1);
+  fields.expense.innerHTML = '';
+  for (expense of expenses){
+    let span = document.createElement('span');
+    fields.expense.appendChild(span);
+    span.innerHTML = `${expense.expenseKey}: ${expense.expenseValue} € ${expense.dateTime}<br/>`
+  }
+  personAccount.totalIncome();
+  personAccount.totalExpense();
+  personAccount.accountBalance();
+  fields.totalBalance.textContent = personAccount.balance + ' €';
 }
 
 function numbersWithZero(number) {
