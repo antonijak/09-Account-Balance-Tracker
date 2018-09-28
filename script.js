@@ -14,43 +14,13 @@ const fields = {
   expenseTime: document.querySelector('#expense-time'),
   totalBalance: document.querySelector('#total-balance'),
   deleteIncome: document.querySelector('#delete-income'),
+  deleteExpense: document.querySelector('#delete-expense')
 }
 
-function onClickRun() {
-  var re = /[0-9]+/;
-  let trueOrNot = re.test(fields.amount.value);
+let incomes = [];
 
-  if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === true) {
-    fields.warning.style.top = '200000px';
-    if (fields.transactionType.value === 'income') {
-      personAccount.addIncome();
-      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
-    } else {
-      personAccount.addExpense();
-      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
-    }
-    if (personAccount.balance < 0) {
-      fields.totalBalance.style.color = 'red';
-    }
-    
-    fields.description.style.border = '1px solid black';
-    fields.amount.style.border = '1px solid black';
-  } else if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === false) {
-    fields.description.style.border = '1px solid red';
-    fields.amount.style.border = '1px solid red';
-    fields.warning.style.top = '-20px';
-  } else {
-    fields.description.style.border = '1px solid red';
-    fields.amount.style.border = '1px solid red';
-    fields.warning.style.top = '-20px';
-  }
-  fields.description.value = '';
-    fields.amount.value = '';
-}
 
-add.addEventListener('click', onClickRun);
-
-var personAccount = {
+let personAccount = {
   income: [],
   expense: [],
   balance: 0,
@@ -69,8 +39,10 @@ var personAccount = {
     return result
   },
   totalIncome: function () {
-    let amounts = this.income.map(function (item) {
-      return item.amount
+    let amounts = this.income.filter(function (item) {
+      if (item !== null) {
+        return item.amount
+      }
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -79,8 +51,10 @@ var personAccount = {
     return sum
   },
   totalExpense: function () {
-    let amounts = this.expense.map(function (item) {
-      return item.amount
+    let amounts = this.expense.filter(function (item) {
+      if (item !== null) {
+        return item.amount
+      }
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -97,8 +71,15 @@ var personAccount = {
     this.income.push(newIncome);
     this.accountBalance();
     let incomeI = document.createElement('div');
-    incomeI.innerHTML = `${incomeKey}: ${incomeValue} € ${displayDateTime()}`;
+    let dateTime = displayDateTime();
     fields.income.appendChild(incomeI);
+    let thisIncome = {};
+    thisIncome.incomeKey = incomeKey;
+    thisIncome.incomeValue = incomeValue;
+    thisIncome.dateTime = dateTime;
+    incomes.push(thisIncome);
+    incomeI.innerHTML = `${incomeKey}: ${incomeValue} € ${dateTime}`;
+    
   },
   addExpense: function () {
     let expenseKey = this.incomeOrExpenseDescription('expense');
@@ -119,6 +100,62 @@ var personAccount = {
 
 }
 
+
+
+function onClickRun() {
+  var re = /[0-9]+/;
+  let trueOrNot = re.test(fields.amount.value);
+  console.log(incomes);
+  if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === true) {
+    fields.warning.style.top = '200000px';
+    if (fields.transactionType.value === 'income') {
+      personAccount.addIncome();
+      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
+    } else {
+      personAccount.addExpense();
+      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
+    }
+    if (personAccount.balance < 0) {
+      fields.totalBalance.style.color = 'red';
+    }
+
+    fields.description.style.border = '1px solid black';
+    fields.amount.style.border = '1px solid black';
+  } else if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === false) {
+    fields.description.style.border = '1px solid red';
+    fields.amount.style.border = '1px solid red';
+    fields.warning.style.top = '-20px';
+  } else {
+    fields.description.style.border = '1px solid red';
+    fields.amount.style.border = '1px solid red';
+    fields.warning.style.top = '-20px';
+  }
+  fields.description.value = '';
+  fields.amount.value = '';
+}
+
+fields.add.addEventListener('click', onClickRun);
+fields.deleteIncome.addEventListener('click', deleteAndCalculateIncome);
+fields.deleteExpense.addEventListener('click', deleteAndCalculateExpense);
+
+
+function deleteAndCalculateIncome() {
+  personAccount.income.splice(-1, 1);
+  incomes.splice(-1, 1);
+  fields.income.innerHTML = '';
+  for (income of incomes){
+    let span = document.createElement('span');
+    fields.income.appendChild(span);
+    span.innerHTML = `${income.incomeKey}: ${income.incomeValue} € ${income.dateTime}<br/>`
+  }
+
+}
+
+function deleteAndCalculateExpense() {
+  personAccount.expense.splice(-1, 1)
+  console.log(personAccount.expense);
+}
+
 function numbersWithZero(number) {
   return String("000" + number).slice(-2);
 }
@@ -133,3 +170,5 @@ function displayDateTime() {
 
   return `<span id= "date">${day}/${month}/${year}</span> <span id= "time">${hour}:${minutes}</span>`
 }
+
+console.log(incomes);
