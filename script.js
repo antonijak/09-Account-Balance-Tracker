@@ -9,6 +9,7 @@ const fields = {
   incomeDate: document.querySelector('#income-date'),
   incomeTime: document.querySelector('#income-time'),
   expense: document.querySelector('#expense'),
+  expenseContainer: document.querySelector('#expense-container'),
   expenseItem: document.querySelector('#expense-item'),
   expenseDate: document.querySelector('#expense-date'),
   expenseTime: document.querySelector('#expense-time'),
@@ -123,8 +124,8 @@ function onClickRun() {
       fields.totalBalance.style.color = 'red';
     }
 
-    fields.description.style.border = '1px solid black';
-    fields.amount.style.border = '1px solid black';
+    fields.description.style.border = 'none';
+    fields.amount.style.border = 'none';
   } else if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === false) {
     fields.description.style.border = '1px solid red';
     fields.amount.style.border = '1px solid red';

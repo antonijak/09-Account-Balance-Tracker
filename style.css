@@ -1,67 +1,127 @@
 * {
   box-sizing: border-box;
   /* border: 1px solid black; */
+  margin: 0;
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(242, 242, 242);
+  color: rgb(69, 67, 67);
+  font-family: 'Roboto', sans-serif;
+}
+
+#wrapper {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 h1 {
   text-align: center;
-}
-
-#input-container {
-  text-align: center;
-  position: relative;
-}
-
-#main {
-  height: fit-content;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
+  width: 40%;
+  margin: 3rem 0;
 }
 
 h3 {
-  border-bottom: 1px solid black;
+  padding: 1rem;
 }
 
-#income-container{
-  width: 50%;
+#input-container {
+  position: relative;
+  width: 60%;
+  margin: 3rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 1rem;
 }
 
-#income {
-  height: 10rem;
-  overflow: scroll;
+input, button, select {
+  line-height: 1.7rem;
+  font-size: 1rem;
+  padding: 0 .5rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 0;
-  background-color: rgb(254, 249, 249);
+input:focus {
+  border: none;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgb(201, 201, 201);
+select {
+  height: 1.8rem;
+  background-color: white;
+  border: none;
 }
 
-#expense-container{
-  width: 50%;
+#add {
+  background-color: rgb(32, 176, 32);
+  border-color: rgb(32, 176, 32);
+  color: white;
 }
 
-#expense {
-  height: 10rem;
-  overflow: scroll;
+::-webkit-input-placeholder {
+  color: rgb(182, 182, 182);
 }
+
+#main {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  width: 80%;
+  margin: auto;
+}
+
+h3 {
+  background-color: rgb(255, 134, 5);
+  color: white;
+}
+
+#income-container, #expense-container{
+  width: 40%;
+
+}
+
+#income, #expense {
+  font-size: 1rem;
+  padding: 1rem;
+  text-align: right;
+  background-color: white;
+  overflow-y: scroll; 
+  height: 20rem;
+}
+
+#income div, #expense div, #income span, #expense span {
+  line-height: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* #income::-webkit-scrollbar {
+  width: 6px;
+  background-color: rgb(249, 249, 249);
+}
+
+#income::-webkit-scrollbar-thumb {
+  background-color: rgb(75, 73, 73);
+} */
+
 
 #balance-container{
-  width: 100%;
+  width: 20%;
 }
 
 #balance {
-  height: 10rem;
-  overflow: scroll;
+  height: 20rem;
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  background-color: white;
 }
 
 span {
@@ -74,5 +134,4 @@ span {
   bottom: 2000000px;
   color: red;
   font-size: .7rem;
-  
 }

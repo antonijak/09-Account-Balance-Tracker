@@ -5,40 +5,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
   <title>Account Balance Tracker</title>
 </head>
 
 <body>
- 
-  <h1>Account Balance Tracker</h1>
-  <div id="input-container">
-    <span id="warning">Please enter the right description and amount</span>
-    <input type="text" placeholder="Description" id="description">
-    <input type="text" placeholder="Amount" id="amount">
-    <select name="" id="transaction-type">
-      <option value="income">Income</option>
-      <option value="expense">Expense</option>
-    </select>
-    <button id="add">Add</button>
-  </div>
-  <div id="main">
-    <div id="income-container">
-      <h3>Income</h3>
-      <div id="income">
-      </div>
-      <button id="delete-income">Delete</button>
+  <div id="wrapper">
+
+    <h1>Account Balance Tracker</h1>
+    <div id="input-container">
+      <span id="warning">Please enter the right description and amount</span>
+      <input type="text" placeholder="Description" id="description">
+      <input type="text" placeholder="Amount" id="amount">
+      <select name="" id="transaction-type">
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+      <button id="add">Add</button>
     </div>
-    <div id="expense-container">
-      <h3>Expense</h3>
-      <div id="expense">
+    <div id="main">
+      <div id="income-container">
+        <h3>Income</h3>
+        <div id="income">
+        </div>
+        <button id="delete-income">Delete</button>
       </div>
-      <button id="delete-expense">Delete</button>
-    </div>
-    <div id="balance-container">
-      <h3>Balance</h3>
-      <div id="balance">
-        Net: <span id="total-balance"></span>
+      <div id="expense-container">
+        <h3>Expense</h3>
+        <div id="expense">
+        </div>
+        <button id="delete-expense">Delete</button>
+      </div>
+      <div id="balance-container">
+        <h3>Balance</h3>
+        <div id="balance">
+          Net: <span id="total-balance"></span>
+        </div>
       </div>
     </div>
   </div>
