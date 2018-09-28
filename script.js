@@ -39,10 +39,8 @@ let personAccount = {
     return result
   },
   totalIncome: function () {
-    let amounts = this.income.filter(function (item) {
-      if (item !== null) {
+    let amounts = this.income.map(function (item) {
         return item.amount
-      }
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -51,10 +49,9 @@ let personAccount = {
     return sum
   },
   totalExpense: function () {
-    let amounts = this.expense.filter(function (item) {
-      if (item !== null) {
+    let amounts = this.expense.map(function (item) {
         return item.amount
-      }
+      
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -148,7 +145,10 @@ function deleteAndCalculateIncome() {
     fields.income.appendChild(span);
     span.innerHTML = `${income.incomeKey}: ${income.incomeValue} € ${income.dateTime}<br/>`
   }
-
+  personAccount.totalIncome();
+  personAccount.totalExpense();
+  personAccount.accountBalance();
+  fields.totalBalance.textContent = personAccount.balance + ' €';
 }
 
 function deleteAndCalculateExpense() {
