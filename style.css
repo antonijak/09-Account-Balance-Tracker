@@ -6,7 +6,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(242, 242, 242);
+  background-color: white;
   color: rgb(69, 67, 67);
   font-family: 'Roboto', sans-serif;
 }
@@ -19,23 +19,28 @@ body {
 }
 
 h1 {
-  text-align: center;
-  width: 40%;
-  margin: 3rem 0;
+  text-align: left;
+  width: 49.5%;
+  margin:  2rem 1px;
+  color: rgb(255, 134, 5);
 }
 
 h3 {
   padding: 1rem;
+  font-weight: normal;
+  background-color: rgb(255, 134, 5);
+  color: white;
+  border-right: 1px solid rgb(235, 235, 235);
 }
 
 #input-container {
   position: relative;
-  width: 60%;
-  margin: 3rem 0;
+  width: 50%;
+  margin: 2rem 0;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 0 1rem;
+  justify-content: space-between;
+  
 }
 
 input, button, select {
@@ -47,8 +52,10 @@ input, button, select {
   outline: none;
 }
 
-input:focus {
-  border: none;
+
+
+input {
+  border: 1px solid rgb(235, 235, 235);
 }
 
 select {
@@ -58,8 +65,8 @@ select {
 }
 
 #add {
-  background-color: rgb(32, 176, 32);
-  border-color: rgb(32, 176, 32);
+  background-color: rgb(255, 134, 5);
+  border-color: rgb(255, 134, 5);
   color: white;
 }
 
@@ -71,17 +78,25 @@ select {
   display: flex;
   flex-wrap: wrap;
   text-align: center;
-  width: 80%;
+  width: 100%;
   margin: auto;
+  border-radius: 5px;
+  border: 1px solid rgb(235, 235, 235);
 }
 
-h3 {
-  background-color: rgb(255, 134, 5);
-  color: white;
-}
+
 
 #income-container, #expense-container{
   width: 40%;
+}
+
+#income-container h3 {
+  border-top-left-radius: 5px;
+}
+
+#balance-container h3 {
+  border-top-right-radius: 5px;
+ 
 }
 
 #income, #expense {
@@ -91,6 +106,12 @@ h3 {
   background-color: white;
   overflow-y: scroll; 
   height: 20rem;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#expense {
+  border-right: 1px solid white;
 }
 
 #income div, #expense div, .added-on-delete {
@@ -100,14 +121,14 @@ h3 {
   align-items: baseline;
 }
 
-/* #income::-webkit-scrollbar {
+ #income::-webkit-scrollbar,  #expense::-webkit-scrollbar {
   width: 6px;
   background-color: rgb(249, 249, 249);
 }
 
-#income::-webkit-scrollbar-thumb {
+#income::-webkit-scrollbar-thumb, #expense::-webkit-scrollbar-thumb {
   background-color: rgb(75, 73, 73);
-} */
+} 
 
 
 #balance-container{
@@ -121,7 +142,7 @@ h3 {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  background-color: white;
+  background-color: rgb(249, 249, 249);
 }
 
 
@@ -157,3 +178,28 @@ h3 {
   display: inline-block;
   text-align: right;
 }
+
+.button-div {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-top: 1px solid rgb(235, 235, 235);
+  align-items: baseline;
+}
+
+.button-div span {
+  width: 33%;
+
+}
+
+.button-div button {
+  font-size: 1.3rem;
+}
+
+#total-balance {
+  width: 70%;
+}
+ #button_div{
+   line-height: 1.7rem;
+ }

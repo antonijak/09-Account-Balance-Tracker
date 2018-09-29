@@ -14,6 +14,8 @@ const fields = {
   expenseDate: document.querySelector('#expense-date'),
   expenseTime: document.querySelector('#expense-time'),
   totalBalance: document.querySelector('#total-balance'),
+  totalIncome: document.querySelector('#total-income'),
+  totalExpense: document.querySelector('#total-expense'),
   deleteIncome: document.querySelector('#delete-income'),
   deleteExpense: document.querySelector('#delete-expense')
 }
@@ -92,6 +94,7 @@ let personAccount = {
     incomeI.style.color = 'gray';
     dateThing.style.fontSize = '.7rem';
     onlyAmount.style.color = 'black';
+    fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
   },
   addExpense: function () {
     let expenseKey = this.incomeOrExpenseDescription('expense');
@@ -124,6 +127,7 @@ let personAccount = {
     expenseI.style.color = 'gray';
     dateThing.style.fontSize = '.7rem';
     onlyAmount.style.color = 'black';
+    fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
   },
   accountBalance: function () {
     this.balance = this.totalIncome() - this.totalExpense();
@@ -149,10 +153,12 @@ function onClickRun() {
     }
     if (personAccount.balance < 0) {
       fields.totalBalance.style.color = 'red';
+    } else {
+      fields.totalBalance.style.color = 'black';
     }
 
-    fields.description.style.border = 'none';
-    fields.amount.style.border = 'none';
+    fields.description.style.borderColor = 'rgb(235, 235, 235)';
+    fields.amount.style.borderColor = 'rgb(235, 235, 235)';
   } else if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === false) {
     fields.description.style.border = '1px solid red';
     fields.amount.style.border = '1px solid red';
@@ -197,7 +203,13 @@ function deleteAndCalculateIncome() {
   personAccount.totalIncome();
   personAccount.totalExpense();
   personAccount.accountBalance();
+  fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
   fields.totalBalance.textContent = personAccount.balance + ' €';
+  if (personAccount.balance < 0) {
+    fields.totalBalance.style.color = 'red';
+  } else {
+    fields.totalBalance.style.color = 'black';
+  }
 }
 
 function deleteAndCalculateExpense() {
@@ -226,7 +238,14 @@ function deleteAndCalculateExpense() {
   personAccount.totalIncome();
   personAccount.totalExpense();
   personAccount.accountBalance();
+  fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
   fields.totalBalance.textContent = personAccount.balance + ' €';
+
+  if (personAccount.balance < 0) {
+    fields.totalBalance.style.color = 'red';
+  } else {
+    fields.totalBalance.style.color = 'black';
+  }
 }
 
 function numbersWithZero(number) {

@@ -29,22 +29,33 @@
         <h3>Income</h3>
         <div id="income">
         </div>
-        <button id="delete-income">Delete</button>
+        <div class="button-div">
+        <button id="delete-income"><ion-icon name="trash"></ion-icon></button>
+        <span>Total income:</span>
+        <span id="total-income"></span>
+      </div>
       </div>
       <div id="expense-container">
         <h3>Expense</h3>
         <div id="expense">
         </div>
-        <button id="delete-expense">Delete</button>
+        <div class="button-div">
+        <button id="delete-expense"><ion-icon name="trash"></ion-icon></button>
+        <span>Total expense:</span>
+        <span id="total-expense"></span>
+      </div>
       </div>
       <div id="balance-container">
         <h3>Balance</h3>
-        <div id="balance">
-          Net: <span id="total-balance"></span>
-        </div>
+        <div id="balance"></div>
+        <div class="button-div" id="button_div">
+            <span>Total :</span>
+            <span id="total-balance"></span>
+          </div>
       </div>
     </div>
   </div>
+  <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
   <script src="./script.js"></script>
 </body>
 
