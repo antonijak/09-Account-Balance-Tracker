@@ -77,8 +77,21 @@ let personAccount = {
     thisIncome.incomeValue = incomeValue;
     thisIncome.dateTime = dateTime;
     incomes.push(thisIncome);
-    incomeI.innerHTML = `${incomeKey}: ${incomeValue} € ${dateTime}`;
-    
+    incomeI.className = 'added-on-delete';
+    let dateThing = document.createElement('span');
+    dateThing.innerHTML = dateTime;
+    let name = document.createElement('span');
+    name.innerHTML = incomeKey; 
+    name.className = 'name';
+    let onlyAmount = document.createElement('span');
+    onlyAmount.innerHTML =  incomeValue + '€';
+    onlyAmount.className = 'amount'
+    incomeI.appendChild(dateThing);
+    incomeI.appendChild(name);
+    incomeI.appendChild(onlyAmount);
+    incomeI.style.color = 'gray';
+    dateThing.style.fontSize = '.7rem';
+    onlyAmount.style.color = 'black';
   },
   addExpense: function () {
     let expenseKey = this.incomeOrExpenseDescription('expense');
@@ -90,13 +103,27 @@ let personAccount = {
     this.accountBalance();
     let expenseI = document.createElement('div');
     let dateTime = displayDateTime();
-    expenseI.innerHTML = `${expenseKey}: ${expenseValue} € ${dateTime}`;
     fields.expense.appendChild(expenseI);
     let thisExpense = {};
     thisExpense.expenseKey = expenseKey;
     thisExpense.expenseValue = expenseValue;
     thisExpense.dateTime = dateTime;
     expenses.push(thisExpense);
+    expenseI.className = 'added-on-delete';
+    let dateThing = document.createElement('span');
+    dateThing.innerHTML = dateTime;
+    let name = document.createElement('span');
+    name.innerHTML = expenseKey; 
+    name.className = 'name';
+    let onlyAmount = document.createElement('span');
+    onlyAmount.innerHTML =  '-' + expenseValue + '€';
+    onlyAmount.className = 'amount'
+    expenseI.appendChild(dateThing);
+    expenseI.appendChild(name);
+    expenseI.appendChild(onlyAmount);
+    expenseI.style.color = 'gray';
+    dateThing.style.fontSize = '.7rem';
+    onlyAmount.style.color = 'black';
   },
   accountBalance: function () {
     this.balance = this.totalIncome() - this.totalExpense();
@@ -151,7 +178,21 @@ function deleteAndCalculateIncome() {
   for (income of incomes){
     let span = document.createElement('span');
     fields.income.appendChild(span);
-    span.innerHTML = `${income.incomeKey}: ${income.incomeValue} € ${income.dateTime}<br/>`
+    span.className = 'added-on-delete';
+    let dateThing = document.createElement('span');
+    dateThing.innerHTML = income.dateTime;
+    let name = document.createElement('span');
+    name.innerHTML = income.incomeKey; 
+    name.className = 'name';
+    let onlyAmount = document.createElement('span');
+    onlyAmount.innerHTML = income.incomeValue + '€';
+    onlyAmount.className = 'amount'
+    span.appendChild(dateThing);
+    span.appendChild(name);
+    span.appendChild(onlyAmount);
+    span.style.color = 'gray';
+    dateThing.style.fontSize = '.7rem';
+    onlyAmount.style.color = 'black';
   }
   personAccount.totalIncome();
   personAccount.totalExpense();
@@ -166,7 +207,21 @@ function deleteAndCalculateExpense() {
   for (expense of expenses){
     let span = document.createElement('span');
     fields.expense.appendChild(span);
-    span.innerHTML = `${expense.expenseKey}: ${expense.expenseValue} € ${expense.dateTime}<br/>`
+    span.className = 'added-on-delete';
+    let dateThing = document.createElement('span');
+    dateThing.innerHTML = expense.dateTime;
+    let name = document.createElement('span');
+    name.innerHTML = expense.expenseKey; 
+    name.className = 'name';
+    let onlyAmount = document.createElement('span');
+    onlyAmount.innerHTML =  '-' + expense.expenseValue + '€';
+    onlyAmount.className = 'amount'
+    span.appendChild(dateThing);
+    span.appendChild(name);
+    span.appendChild(onlyAmount);
+    span.style.color = 'gray';
+    dateThing.style.fontSize = '.7rem';
+    onlyAmount.style.color = 'black';
   }
   personAccount.totalIncome();
   personAccount.totalExpense();
