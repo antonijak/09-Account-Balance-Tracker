@@ -86,7 +86,7 @@ let personAccount = {
     name.innerHTML = incomeKey; 
     name.className = 'name';
     let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML =  incomeValue + '€';
+    onlyAmount.innerHTML =  incomeValue + ' €';
     onlyAmount.className = 'amount'
     incomeI.appendChild(dateThing);
     incomeI.appendChild(name);
@@ -119,7 +119,7 @@ let personAccount = {
     name.innerHTML = expenseKey; 
     name.className = 'name';
     let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML =  '-' + expenseValue + '€';
+    onlyAmount.innerHTML =  '-' + expenseValue + ' €';
     onlyAmount.className = 'amount'
     expenseI.appendChild(dateThing);
     expenseI.appendChild(name);
@@ -143,7 +143,7 @@ function onClickRun() {
   let trueOrNot = re.test(fields.amount.value);
   console.log(incomes);
   if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === true) {
-    fields.warning.style.top = '200000px';
+    fields.warning.style.bottom = '2000px';
     if (fields.transactionType.value === 'income') {
       personAccount.addIncome();
       fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
@@ -191,7 +191,7 @@ function deleteAndCalculateIncome() {
     name.innerHTML = income.incomeKey; 
     name.className = 'name';
     let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML = income.incomeValue + '€';
+    onlyAmount.innerHTML = income.incomeValue + ' €';
     onlyAmount.className = 'amount'
     span.appendChild(dateThing);
     span.appendChild(name);
@@ -226,7 +226,7 @@ function deleteAndCalculateExpense() {
     name.innerHTML = expense.expenseKey; 
     name.className = 'name';
     let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML =  '-' + expense.expenseValue + '€';
+    onlyAmount.innerHTML =  '-' + expense.expenseValue + ' €';
     onlyAmount.className = 'amount'
     span.appendChild(dateThing);
     span.appendChild(name);

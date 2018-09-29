@@ -149,7 +149,7 @@ select {
 #warning {
   display: inline-block;
   position: absolute;
-  bottom: 2000000px;
+  bottom: 2000px;
   color: red;
   font-size: .7rem;
 }
