@@ -140,10 +140,10 @@ let personAccount = {
 }
 
 function onClickRun() {
-  var re = /[0-9]/;
-  let trueOrNot = re.test(fields.amount.value);
-  if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === true) {
+  if (fields.description.value !== '' && fields.amount.value !== ''&& isFinite(fields.amount.value)) {
     fields.warning.style.bottom = '2000px';
+    fields.description.style.borderColor = 'rgb(235, 235, 235)';
+    fields.amount.style.borderColor = 'rgb(235, 235, 235)';
     if (fields.transactionType.value === 'income') {
       personAccount.addIncome();
       fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
@@ -151,8 +151,6 @@ function onClickRun() {
       personAccount.addExpense();
       fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
     }
-    fields.description.style.borderColor = 'rgb(235, 235, 235)';
-    fields.amount.style.borderColor = 'rgb(235, 235, 235)';
   } else {
     fields.description.style.border = '1px solid red';
     fields.amount.style.border = '1px solid red';
@@ -173,7 +171,6 @@ function displayDateTime() {
   var year = date.getFullYear();
   var hour = numbersWithZero(date.getHours());
   var minutes = numbersWithZero(date.getMinutes());
-
   return `<span id= "date">${day}/${month}/${year}</span> <span id= "time">${hour}:${minutes}</span>`
 }
 
