@@ -7,6 +7,7 @@ body {
   background-color: white;
   color: rgb(69, 67, 67);
   font-family: 'Roboto', sans-serif;
+  min-width: 420px;
 }
 
 #wrapper {
@@ -14,6 +15,7 @@ body {
   margin: auto;
   display: flex;
   flex-wrap: wrap;
+  padding-bottom: 2rem;
 }
 
 h1 {
@@ -76,6 +78,7 @@ select {
   margin: auto;
   border-radius: 5px;
   border: 1px solid rgb(235, 235, 235);
+  margin-bottom: 2rem;
 }
 
 h3 {
@@ -182,6 +185,7 @@ h3 {
 
 .total-container span {
   width: 33%;
+  text-align: right;
 }
 
 .total-container button {
@@ -191,3 +195,130 @@ h3 {
 #total-balance {
   width: 70%;
 }
+
+@media only screen and (max-width: 1272px){
+
+  h1{
+    width: 42%;
+  }
+
+  #input-container{
+    width: 57%;
+  }
+
+}
+@media only screen and (max-width: 1087px){
+
+  h1{
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  /* .total-container{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  */
+
+  .total-container span {
+    width: 70%;
+    text-align: right;
+  }
+/* 
+  #delete-income {
+    width: 30%;
+  }
+
+  #total-income, #total-expense {
+    width: 100%;
+    text-align: right;
+  }  */
+
+ input, select, #add {
+   margin-right: 1rem;
+ }
+
+  main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #income-container, #expense-container{
+    width: 50%;
+  }
+
+  #expense-container h3, #balance-container h3 {
+    border-top-right-radius: 5px;
+  }
+
+  #balance-container {
+    width: 100%;
+    height: 0;
+  }
+
+  #balance {
+    height: 0;
+    padding: 0;
+  }
+
+  #balance-container .total-container span {
+    text-align: left;
+  }  
+
+  #balance-container  #total-balance {
+    text-align: right;
+  }
+
+  #balance-container .total-container {
+    margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 800px){
+
+  #wrapper {
+    width: 95%;
+  }
+
+  input, select, #add {
+    margin-right: 0;
+  }
+
+  #income-container, #expense-container,#input-container  {
+    width: 100%;
+    border-top-right-radius: 5px;
+  }
+
+h3 {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+}
+
+@media only screen and (max-width: 660px){
+  h1{
+    text-align: center;
+  }
+
+  #input-container{
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (max-width: 640px){
+
+
+  #add {
+    margin-top: 1rem;
+    padding: 0 4.9rem;
+  }
+
+  input, select, #add {
+    width: 48%;
+  }
+
+  #wrapper {
+    width: 98%;
+  }
+}
+
