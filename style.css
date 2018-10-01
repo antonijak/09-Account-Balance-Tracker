@@ -61,7 +61,6 @@ input {
 select {
   height: 1.8rem;
   background-color: white;
-  border: none;
 }
 
 #add {

@@ -24,6 +24,7 @@ let incomes = [];
 let expenses = [];
 
 
+
 let personAccount = {
   income: [],
   expense: [],
@@ -71,6 +72,9 @@ let personAccount = {
     newIncome.amount = incomeValue;
     this.income.push(newIncome);
     this.accountBalance();
+    this.displayIncome (incomeKey, incomeValue)
+  },
+  displayIncome: function (incomeKey, incomeValue){
     let incomeI = document.createElement('div');
     let dateTime = displayDateTime();
     fields.income.appendChild(incomeI);
@@ -94,8 +98,8 @@ let personAccount = {
     incomeI.style.color = 'gray';
     dateThing.style.fontSize = '.7rem';
     onlyAmount.style.color = 'black';
-    fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
-  },
+    fields.totalIncome.textContent = this.totalIncome() + ' €';
+},
   addExpense: function () {
     let expenseKey = this.incomeOrExpenseDescription('expense');
     let expenseValue = this.incomeOrExpenseValue('expense');
@@ -104,6 +108,9 @@ let personAccount = {
     newExpense.amount = expenseValue;
     this.expense.push(newExpense);
     this.accountBalance();
+    this.displayExpense(expenseKey, expenseValue);
+  },
+  displayExpense: function (expenseKey, expenseValue) {
     let expenseI = document.createElement('div');
     let dateTime = displayDateTime();
     fields.expense.appendChild(expenseI);
@@ -127,7 +134,7 @@ let personAccount = {
     expenseI.style.color = 'gray';
     dateThing.style.fontSize = '.7rem';
     onlyAmount.style.color = 'black';
-    fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
+    fields.totalExpense.textContent = '-' + this.totalExpense() + ' €';
   },
   accountBalance: function () {
     this.balance = this.totalIncome() - this.totalExpense();
