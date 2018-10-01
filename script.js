@@ -58,15 +58,12 @@ let personAccount = {
     incomeI.appendChild(dateThing);
     incomeI.appendChild(name);
     incomeI.appendChild(onlyAmount);
-    incomeI.style.color = 'gray';
     incomeI.className = 'added-on-delete';
     dateThing.innerHTML = incomeTime;
-    dateThing.style.fontSize = '.7rem';
     name.innerHTML = incomeKey;
     name.className = 'name';
     onlyAmount.innerHTML = incomeValue + ' €';
     onlyAmount.className = 'amount'
-    onlyAmount.style.color = 'black';
     let thisIncome = {};
     thisIncome.incomeKey = incomeKey;
     thisIncome.incomeValue = incomeValue;
@@ -74,16 +71,18 @@ let personAccount = {
     fields.totalIncome.textContent = this.totalIncome() + ' €';
   },
   deleteAndCalculateIncome: function () {
-    personAccount.income.splice(-1, 1);
-    console.log(personAccount.income);
-    fields.income.innerHTML = '';
-    for (income of personAccount.income) {
-      personAccount.displayIncome(income.description, income.amount, income.time)
+    if (confirm('Are you sure you want to delete last entry?') === true) {
+      personAccount.income.splice(-1, 1);
+      console.log(personAccount.income);
+      fields.income.innerHTML = '';
+      for (income of personAccount.income) {
+        personAccount.displayIncome(income.description, income.amount, income.time)
+      }
+      personAccount.totalIncome();
+      personAccount.accountBalance();
+      fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
+      fields.totalBalance.textContent = personAccount.balance + ' €';
     }
-    personAccount.totalIncome();
-    personAccount.accountBalance();
-    fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
-    fields.totalBalance.textContent = personAccount.balance + ' €';
   },
   addExpense: function () {
     let expenseKey = fields.description.value;
@@ -107,26 +106,25 @@ let personAccount = {
     expenseI.appendChild(name);
     expenseI.appendChild(onlyAmount);
     expenseI.className = 'added-on-delete';
-    expenseI.style.color = 'gray';
     dateThing.innerHTML = expenseTime;
-    dateThing.style.fontSize = '.7rem';
     name.innerHTML = expenseKey;
     name.className = 'name';
     onlyAmount.innerHTML = '-' + expenseValue + ' €';
     onlyAmount.className = 'amount'
-    onlyAmount.style.color = 'black';
     fields.totalExpense.textContent = '-' + this.totalExpense() + ' €';
   },
   deleteAndCalculateExpense: function () {
-    personAccount.expense.splice(-1, 1)
-    fields.expense.innerHTML = '';
-    for (expense of personAccount.expense) {
-      personAccount.displayExpense(expense.description, expense.amount, expense.time)
+    if (confirm('Are you sure you want to delete last entry?') === true) {
+      personAccount.expense.splice(-1, 1)
+      fields.expense.innerHTML = '';
+      for (expense of personAccount.expense) {
+        personAccount.displayExpense(expense.description, expense.amount, expense.time)
+      }
+      personAccount.totalExpense();
+      personAccount.accountBalance();
+      fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
+      fields.totalBalance.textContent = personAccount.balance + ' €';
     }
-    personAccount.totalExpense();
-    personAccount.accountBalance();
-    fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
-    fields.totalBalance.textContent = personAccount.balance + ' €';
   },
   accountBalance: function () {
     this.balance = this.totalIncome() - this.totalExpense();
@@ -140,7 +138,7 @@ let personAccount = {
 }
 
 function onClickRun() {
-  if (fields.description.value !== '' && fields.amount.value !== ''&& isFinite(fields.amount.value)) {
+  if (fields.description.value !== '' && fields.amount.value !== '' && isFinite(fields.amount.value)) {
     fields.warning.style.bottom = '2000px';
     fields.description.style.borderColor = 'rgb(235, 235, 235)';
     fields.amount.style.borderColor = 'rgb(235, 235, 235)';
