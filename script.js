@@ -5,14 +5,7 @@ const fields = {
   transactionType: document.querySelector('#transaction-type'),
   add: document.querySelector('#add'),
   income: document.querySelector('#income'),
-  incomeItem: document.querySelector('#income-item'),
-  incomeDate: document.querySelector('#income-date'),
-  incomeTime: document.querySelector('#income-time'),
   expense: document.querySelector('#expense'),
-  expenseContainer: document.querySelector('#expense-container'),
-  expenseItem: document.querySelector('#expense-item'),
-  expenseDate: document.querySelector('#expense-date'),
-  expenseTime: document.querySelector('#expense-time'),
   totalBalance: document.querySelector('#total-balance'),
   totalIncome: document.querySelector('#total-income'),
   totalExpense: document.querySelector('#total-expense'),
@@ -24,23 +17,9 @@ let personAccount = {
   income: [],
   expense: [],
   balance: 0,
-  incomeOrExpenseValue: function (expression) {
-    let result;
-    if (fields.transactionType.value === expression) {
-      result = parseInt(fields.amount.value);
-    }
-    return result
-  },
-  incomeOrExpenseDescription: function (expression) {
-    let result;
-    if (fields.transactionType.value === expression) {
-      result = fields.description.value
-    }
-    return result
-  },
   totalIncome: function () {
     let amounts = this.income.map(function (item) {
-      return item.amount
+      return parseInt(item.amount)
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -50,7 +29,7 @@ let personAccount = {
   },
   totalExpense: function () {
     let amounts = this.expense.map(function (item) {
-      return item.amount
+      return parseInt(item.amount)
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -59,8 +38,8 @@ let personAccount = {
     return sum
   },
   addIncome: function () {
-    let incomeKey = this.incomeOrExpenseDescription('income');
-    let incomeValue = this.incomeOrExpenseValue('income');
+    let incomeKey = fields.description.value;
+    let incomeValue = fields.amount.value;
     let incomeTime = displayDateTime();
     let newIncome = {};
     newIncome.description = incomeKey;
@@ -107,8 +86,8 @@ let personAccount = {
     fields.totalBalance.textContent = personAccount.balance + ' €';
   },
   addExpense: function () {
-    let expenseKey = this.incomeOrExpenseDescription('expense');
-    let expenseValue = this.incomeOrExpenseValue('expense');
+    let expenseKey = fields.description.value;
+    let expenseValue = fields.amount.value;
     let expenseTime = displayDateTime();
     let newExpense = {};
     newExpense.description = expenseKey;
@@ -161,7 +140,7 @@ let personAccount = {
 }
 
 function onClickRun() {
-  var re = /[0-9]+/;
+  var re = /[0-9]/;
   let trueOrNot = re.test(fields.amount.value);
   if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === true) {
     fields.warning.style.bottom = '2000px';
@@ -174,10 +153,6 @@ function onClickRun() {
     }
     fields.description.style.borderColor = 'rgb(235, 235, 235)';
     fields.amount.style.borderColor = 'rgb(235, 235, 235)';
-  } else if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === false) {
-    fields.description.style.border = '1px solid red';
-    fields.amount.style.border = '1px solid red';
-    fields.warning.style.bottom = '-20px';
   } else {
     fields.description.style.border = '1px solid red';
     fields.amount.style.border = '1px solid red';
