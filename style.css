@@ -120,6 +120,8 @@ select {
   align-items: baseline;
 }
 
+
+
  #income::-webkit-scrollbar,  #expense::-webkit-scrollbar {
   width: 6px;
   background-color: rgb(249, 249, 249);
@@ -199,6 +201,7 @@ select {
 #total-balance {
   width: 70%;
 }
- #button_div{
+
+#button_div{
    line-height: 1.7rem;
- }
+}

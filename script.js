@@ -20,11 +20,6 @@ const fields = {
   deleteExpense: document.querySelector('#delete-expense')
 }
 
-let incomes = [];
-let expenses = [];
-
-
-
 let personAccount = {
   income: [],
   expense: [],
@@ -45,7 +40,7 @@ let personAccount = {
   },
   totalIncome: function () {
     let amounts = this.income.map(function (item) {
-        return item.amount
+      return item.amount
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -55,8 +50,7 @@ let personAccount = {
   },
   totalExpense: function () {
     let amounts = this.expense.map(function (item) {
-        return item.amount
-      
+      return item.amount
     })
     let sum = 0;
     for (let i = 0; i < amounts.length; i++) {
@@ -67,88 +61,108 @@ let personAccount = {
   addIncome: function () {
     let incomeKey = this.incomeOrExpenseDescription('income');
     let incomeValue = this.incomeOrExpenseValue('income');
+    let incomeTime = displayDateTime();
     let newIncome = {};
     newIncome.description = incomeKey;
     newIncome.amount = incomeValue;
+    newIncome.time = incomeTime;
     this.income.push(newIncome);
     this.accountBalance();
-    this.displayIncome (incomeKey, incomeValue)
+    this.displayIncome(incomeKey, incomeValue, incomeTime)
   },
-  displayIncome: function (incomeKey, incomeValue){
+  displayIncome: function (incomeKey, incomeValue, incomeTime) {
     let incomeI = document.createElement('div');
-    let dateTime = displayDateTime();
-    fields.income.appendChild(incomeI);
-    let thisIncome = {};
-    thisIncome.incomeKey = incomeKey;
-    thisIncome.incomeValue = incomeValue;
-    thisIncome.dateTime = dateTime;
-    incomes.push(thisIncome);
-    incomeI.className = 'added-on-delete';
     let dateThing = document.createElement('span');
-    dateThing.innerHTML = dateTime;
     let name = document.createElement('span');
-    name.innerHTML = incomeKey; 
-    name.className = 'name';
     let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML =  incomeValue + ' €';
-    onlyAmount.className = 'amount'
+    fields.income.appendChild(incomeI);
     incomeI.appendChild(dateThing);
     incomeI.appendChild(name);
     incomeI.appendChild(onlyAmount);
     incomeI.style.color = 'gray';
+    incomeI.className = 'added-on-delete';
+    dateThing.innerHTML = incomeTime;
     dateThing.style.fontSize = '.7rem';
+    name.innerHTML = incomeKey;
+    name.className = 'name';
+    onlyAmount.innerHTML = incomeValue + ' €';
+    onlyAmount.className = 'amount'
     onlyAmount.style.color = 'black';
+    let thisIncome = {};
+    thisIncome.incomeKey = incomeKey;
+    thisIncome.incomeValue = incomeValue;
+    thisIncome.dateTime = incomeTime;
     fields.totalIncome.textContent = this.totalIncome() + ' €';
-},
+  },
+  deleteAndCalculateIncome: function () {
+    personAccount.income.splice(-1, 1);
+    console.log(personAccount.income);
+    fields.income.innerHTML = '';
+    for (income of personAccount.income) {
+      personAccount.displayIncome(income.description, income.amount, income.time)
+    }
+    personAccount.totalIncome();
+    personAccount.accountBalance();
+    fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
+    fields.totalBalance.textContent = personAccount.balance + ' €';
+  },
   addExpense: function () {
     let expenseKey = this.incomeOrExpenseDescription('expense');
     let expenseValue = this.incomeOrExpenseValue('expense');
+    let expenseTime = displayDateTime();
     let newExpense = {};
     newExpense.description = expenseKey;
     newExpense.amount = expenseValue;
+    newExpense.time = expenseTime;
     this.expense.push(newExpense);
     this.accountBalance();
-    this.displayExpense(expenseKey, expenseValue);
+    this.displayExpense(expenseKey, expenseValue, expenseTime);
   },
-  displayExpense: function (expenseKey, expenseValue) {
+  displayExpense: function (expenseKey, expenseValue, expenseTime) {
     let expenseI = document.createElement('div');
-    let dateTime = displayDateTime();
-    fields.expense.appendChild(expenseI);
-    let thisExpense = {};
-    thisExpense.expenseKey = expenseKey;
-    thisExpense.expenseValue = expenseValue;
-    thisExpense.dateTime = dateTime;
-    expenses.push(thisExpense);
-    expenseI.className = 'added-on-delete';
     let dateThing = document.createElement('span');
-    dateThing.innerHTML = dateTime;
     let name = document.createElement('span');
-    name.innerHTML = expenseKey; 
-    name.className = 'name';
     let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML =  '-' + expenseValue + ' €';
-    onlyAmount.className = 'amount'
+    fields.expense.appendChild(expenseI);
     expenseI.appendChild(dateThing);
     expenseI.appendChild(name);
     expenseI.appendChild(onlyAmount);
+    expenseI.className = 'added-on-delete';
     expenseI.style.color = 'gray';
+    dateThing.innerHTML = expenseTime;
     dateThing.style.fontSize = '.7rem';
+    name.innerHTML = expenseKey;
+    name.className = 'name';
+    onlyAmount.innerHTML = '-' + expenseValue + ' €';
+    onlyAmount.className = 'amount'
     onlyAmount.style.color = 'black';
     fields.totalExpense.textContent = '-' + this.totalExpense() + ' €';
   },
+  deleteAndCalculateExpense: function () {
+    personAccount.expense.splice(-1, 1)
+    fields.expense.innerHTML = '';
+    for (expense of personAccount.expense) {
+      personAccount.displayExpense(expense.description, expense.amount, expense.time)
+    }
+    personAccount.totalExpense();
+    personAccount.accountBalance();
+    fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
+    fields.totalBalance.textContent = personAccount.balance + ' €';
+  },
   accountBalance: function () {
     this.balance = this.totalIncome() - this.totalExpense();
+    if (this.balance < 0) {
+      fields.totalBalance.style.color = 'red';
+    } else {
+      fields.totalBalance.style.color = 'black';
+    }
     return this.balance
   }
-
 }
-
-
 
 function onClickRun() {
   var re = /[0-9]+/;
   let trueOrNot = re.test(fields.amount.value);
-  console.log(incomes);
   if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === true) {
     fields.warning.style.bottom = '2000px';
     if (fields.transactionType.value === 'income') {
@@ -158,101 +172,19 @@ function onClickRun() {
       personAccount.addExpense();
       fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
     }
-    if (personAccount.balance < 0) {
-      fields.totalBalance.style.color = 'red';
-    } else {
-      fields.totalBalance.style.color = 'black';
-    }
-
     fields.description.style.borderColor = 'rgb(235, 235, 235)';
     fields.amount.style.borderColor = 'rgb(235, 235, 235)';
   } else if (fields.description.value !== '' && fields.amount.value !== '' && trueOrNot === false) {
     fields.description.style.border = '1px solid red';
     fields.amount.style.border = '1px solid red';
-    fields.warning.style.top = '-20px';
+    fields.warning.style.bottom = '-20px';
   } else {
     fields.description.style.border = '1px solid red';
     fields.amount.style.border = '1px solid red';
-    fields.warning.style.top = '-20px';
+    fields.warning.style.bottom = '-20px';
   }
   fields.description.value = '';
   fields.amount.value = '';
-}
-
-fields.add.addEventListener('click', onClickRun);
-fields.deleteIncome.addEventListener('click', deleteAndCalculateIncome);
-fields.deleteExpense.addEventListener('click', deleteAndCalculateExpense);
-
-
-function deleteAndCalculateIncome() {
-  personAccount.income.splice(-1, 1);
-  incomes.splice(-1, 1);
-  fields.income.innerHTML = '';
-  for (income of incomes){
-    let span = document.createElement('span');
-    fields.income.appendChild(span);
-    span.className = 'added-on-delete';
-    let dateThing = document.createElement('span');
-    dateThing.innerHTML = income.dateTime;
-    let name = document.createElement('span');
-    name.innerHTML = income.incomeKey; 
-    name.className = 'name';
-    let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML = income.incomeValue + ' €';
-    onlyAmount.className = 'amount'
-    span.appendChild(dateThing);
-    span.appendChild(name);
-    span.appendChild(onlyAmount);
-    span.style.color = 'gray';
-    dateThing.style.fontSize = '.7rem';
-    onlyAmount.style.color = 'black';
-  }
-  personAccount.totalIncome();
-  personAccount.totalExpense();
-  personAccount.accountBalance();
-  fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
-  fields.totalBalance.textContent = personAccount.balance + ' €';
-  if (personAccount.balance < 0) {
-    fields.totalBalance.style.color = 'red';
-  } else {
-    fields.totalBalance.style.color = 'black';
-  }
-}
-
-function deleteAndCalculateExpense() {
-  personAccount.expense.splice(-1, 1)
-  expenses.splice(-1, 1);
-  fields.expense.innerHTML = '';
-  for (expense of expenses){
-    let span = document.createElement('span');
-    fields.expense.appendChild(span);
-    span.className = 'added-on-delete';
-    let dateThing = document.createElement('span');
-    dateThing.innerHTML = expense.dateTime;
-    let name = document.createElement('span');
-    name.innerHTML = expense.expenseKey; 
-    name.className = 'name';
-    let onlyAmount = document.createElement('span');
-    onlyAmount.innerHTML =  '-' + expense.expenseValue + ' €';
-    onlyAmount.className = 'amount'
-    span.appendChild(dateThing);
-    span.appendChild(name);
-    span.appendChild(onlyAmount);
-    span.style.color = 'gray';
-    dateThing.style.fontSize = '.7rem';
-    onlyAmount.style.color = 'black';
-  }
-  personAccount.totalIncome();
-  personAccount.totalExpense();
-  personAccount.accountBalance();
-  fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
-  fields.totalBalance.textContent = personAccount.balance + ' €';
-
-  if (personAccount.balance < 0) {
-    fields.totalBalance.style.color = 'red';
-  } else {
-    fields.totalBalance.style.color = 'black';
-  }
 }
 
 function numbersWithZero(number) {
@@ -270,4 +202,6 @@ function displayDateTime() {
   return `<span id= "date">${day}/${month}/${year}</span> <span id= "time">${hour}:${minutes}</span>`
 }
 
-console.log(incomes);
+fields.add.addEventListener('click', onClickRun);
+fields.deleteIncome.addEventListener('click', personAccount.deleteAndCalculateIncome);
+fields.deleteExpense.addEventListener('click', personAccount.deleteAndCalculateExpense);
