@@ -41,10 +41,12 @@ let personAccount = {
     let incomeKey = fields.description.value;
     let incomeValue = fields.amount.value;
     let incomeTime = displayDateTime();
+    let uniqueId = userIdGenerator();
     let newIncome = {};
     newIncome.description = incomeKey;
     newIncome.amount = incomeValue;
     newIncome.time = incomeTime;
+    newIncome.id = uniqueId; 
     this.income.push(newIncome);
     this.accountBalance();
     this.displayIncome(incomeKey, incomeValue, incomeTime)
@@ -88,10 +90,12 @@ let personAccount = {
     let expenseKey = fields.description.value;
     let expenseValue = fields.amount.value;
     let expenseTime = displayDateTime();
+    let uniqueId = userIdGenerator();
     let newExpense = {};
     newExpense.description = expenseKey;
     newExpense.amount = expenseValue;
     newExpense.time = expenseTime;
+    newExpense.id = uniqueId; 
     this.expense.push(newExpense);
     this.accountBalance();
     this.displayExpense(expenseKey, expenseValue, expenseTime);
@@ -171,6 +175,17 @@ function displayDateTime() {
   var minutes = numbersWithZero(date.getMinutes());
   return `<span id= "date">${day}/${month}/${year}</span> <span id= "time">${hour}:${minutes}</span>`
 }
+
+function userIdGenerator (){
+    var characters = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+       
+    var id = '';
+    for (i = 0; i < 7; i++){
+      var random = Math.floor(Math.random() * 35);
+      id = id.concat(characters.charAt(random));
+    }    
+    return id
+  }
 
 fields.add.addEventListener('click', onClickRun);
 fields.deleteIncome.addEventListener('click', personAccount.deleteAndCalculateIncome);
