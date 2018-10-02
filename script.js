@@ -50,6 +50,7 @@ let personAccount = {
     this.income.push(newIncome);
     this.accountBalance();
     this.displayIncome(incomeKey, incomeValue, incomeTime)
+    putInLocalStorage (this.income, 'incomes');
   },
   displayIncome: function (incomeKey, incomeValue, incomeTime) {
     let incomeI = document.createElement('div');
@@ -84,6 +85,7 @@ let personAccount = {
       personAccount.accountBalance();
       fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
       fields.totalBalance.textContent = personAccount.balance + ' €';
+      putInLocalStorage (personAccount.income, 'incomes')
     }
   },
   addExpense: function () {
@@ -99,6 +101,7 @@ let personAccount = {
     this.expense.push(newExpense);
     this.accountBalance();
     this.displayExpense(expenseKey, expenseValue, expenseTime);
+    putInLocalStorage (this.expense, 'expenses');
   },
   displayExpense: function (expenseKey, expenseValue, expenseTime) {
     let expenseI = document.createElement('div');
@@ -128,6 +131,7 @@ let personAccount = {
       personAccount.accountBalance();
       fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
       fields.totalBalance.textContent = personAccount.balance + ' €';
+      putInLocalStorage (personAccount.expense, 'expenses')
     }
   },
   accountBalance: function () {
@@ -187,6 +191,36 @@ function userIdGenerator (){
     return id
   }
 
+
+  function putInLocalStorage (arr, local){
+    let bla = JSON.stringify(arr);
+    localStorage.setItem(local, bla);
+  }
+  
+  function getFromLocalStorage (local){
+    let result = JSON.parse(localStorage.getItem(local));
+    return result
+  }
+  
+
 fields.add.addEventListener('click', onClickRun);
 fields.deleteIncome.addEventListener('click', personAccount.deleteAndCalculateIncome);
 fields.deleteExpense.addEventListener('click', personAccount.deleteAndCalculateExpense);
+
+function checkLocalStorage (){
+  if (personAccount.income.length === 0 && getFromLocalStorage('incomes') !== null){
+    let array = getFromLocalStorage('incomes');
+    array.forEach(element => { personAccount.income.push(element)});
+    personAccount.income.forEach(income => personAccount.displayIncome(income.description, income.amount, income.time))
+  }
+  
+  if (personAccount.expense.length === 0 && getFromLocalStorage('expenses') !== null){
+    let array1 = getFromLocalStorage('expenses');
+    array1.forEach(element => { personAccount.expense.push(element)});
+    personAccount.expense.forEach(expense => personAccount.displayExpense(expense.description, expense.amount, expense.time))
+  }
+  personAccount.accountBalance();
+  fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
+}
+
+checkLocalStorage ()
