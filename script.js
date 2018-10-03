@@ -10,7 +10,13 @@ const fields = {
   totalIncome: document.querySelector('#total-income'),
   totalExpense: document.querySelector('#total-expense'),
   deleteIncome: document.querySelector('#delete-income'),
-  deleteExpense: document.querySelector('#delete-expense')
+  deleteExpense: document.querySelector('#delete-expense'),
+  firstName: document.querySelector('#first-name'),
+  surname: document.querySelector('#surname'),
+  username: document.querySelector('#username'),
+  password: document.querySelector('#password'),
+  logUsername: document.querySelector('#log-username'),
+  logPassword: document.querySelector('#log-password')
 }
 
 let personAccount = {
@@ -224,3 +230,7 @@ function checkLocalStorage (){
 }
 
 checkLocalStorage ()
+
+if (fields.firstName !== null && fields.surname !== null && fields.username !== null && fields.password !== null && ){
+  
+}
