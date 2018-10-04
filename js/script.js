@@ -11,19 +11,13 @@ const fields = {
   totalExpense: document.querySelector('#total-expense'),
   deleteIncome: document.querySelector('#delete-income'),
   deleteExpense: document.querySelector('#delete-expense'),
-  firstName: document.querySelector('#first-name'),
-  surname: document.querySelector('#surname'),
-  username: document.querySelector('#username'),
-  password: document.querySelector('#password'),
-  logUsername: document.querySelector('#log-username'),
-  logPassword: document.querySelector('#log-password')
 }
 
 let personAccount = {
   income: [],
   expense: [],
   balance: 0,
-  totalIncomeOrExpense(what) {
+  total(what) {
     let amounts = what.map(item => parseInt(item.amount));
     let sum = 0;
     for (let amount of amounts) {
@@ -31,7 +25,7 @@ let personAccount = {
     }
     return sum
   },
-  addIncomeOrExpense(what, name) {
+  add(what, name) {
     let ieKey = fields.description.value;
     let ieValue = fields.amount.value;
     let ieTime = displayDateTime();
@@ -65,8 +59,8 @@ let personAccount = {
     dateThing.innerHTML = time;
     name.innerHTML = key;
     onlyAmount.innerHTML = value + ' €';
-    fields.totalIncome.textContent = this.totalIncomeOrExpense(personAccount.income) + ' €';
-    fields.totalExpense.textContent = this.totalIncomeOrExpense(personAccount.expense) + ' €';
+    fields.totalIncome.textContent = this.total(personAccount.income) + ' €';
+    fields.totalExpense.textContent = this.total(personAccount.expense) + ' €';
   },
   delete(field, what) {
     if (confirm('Are you sure you want to delete last entry?') === true) {
@@ -75,17 +69,17 @@ let personAccount = {
       for (let item of what) {
         personAccount.display(field, item.description, item.amount, item.time)
       }
-      personAccount.totalIncomeOrExpense(what);
+      personAccount.total(what);
       personAccount.accountBalance();
-      fields.totalIncome.textContent = personAccount.totalIncomeOrExpense(personAccount.income) + ' €';
-      fields.totalExpense.textContent = personAccount.totalIncomeOrExpense(personAccount.expense) + ' €';
+      fields.totalIncome.textContent = personAccount.total(personAccount.income) + ' €';
+      fields.totalExpense.textContent = personAccount.total(personAccount.expense) + ' €';
       fields.totalBalance.textContent = personAccount.balance + ' €';
       putInLocalStorage(personAccount.income, 'incomes')
       putInLocalStorage(personAccount.expense, 'expenses')
     }
   },
-  accountBalance: function () {
-    this.balance = this.totalIncomeOrExpense(personAccount.income) - this.totalIncomeOrExpense(personAccount.expense);
+  accountBalance() {
+    this.balance = this.total(this.income) - this.total(this.expense);
     if (this.balance < 0) {
       fields.totalBalance.style.color = 'red';
     } else {
@@ -96,20 +90,20 @@ let personAccount = {
 }
 
 function onClickRun() {
-  if (fields.description.value !== '' && fields.amount.value !== '' && isFinite(fields.amount.value)) {
+  if (fields.description.value && fields.amount.value && isFinite(fields.amount.value)) {
     fields.warning.style.bottom = '2000px';
-    fields.description.style.borderColor = 'rgb(235, 235, 235)';
-    fields.amount.style.borderColor = 'rgb(235, 235, 235)';
+    fields.description.removeAttribute('class', 'attention');
+    fields.amount.removeAttribute('class', 'attention');
     if (fields.transactionType.value === 'income') {
-      personAccount.addIncomeOrExpense(personAccount.income, 'income');
+      personAccount.add(personAccount.income, 'income');
       fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
     } else {
-      personAccount.addIncomeOrExpense(personAccount.expense, 'expense');
+      personAccount.add(personAccount.expense, 'expense');
       fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
     }
   } else {
-    fields.description.style.border = '1px solid red';
-    fields.amount.style.border = '1px solid red';
+    fields.description.className = 'attention';
+    fields.amount.className = 'attention';
     fields.warning.style.bottom = '-20px';
   }
   fields.description.value = '';
