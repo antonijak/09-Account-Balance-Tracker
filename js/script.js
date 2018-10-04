@@ -50,7 +50,7 @@ let personAccount = {
     }
     putInLocalStorage(what, name + 's');
   },
-  display: function (field, key, value, time) {
+  display(field, key, value, time) {
     let incomeI = document.createElement('div');
     let dateThing = document.createElement('span');
     let name = document.createElement('span');
@@ -68,31 +68,19 @@ let personAccount = {
     fields.totalIncome.textContent = this.totalIncomeOrExpense(personAccount.income) + ' €';
     fields.totalExpense.textContent = this.totalIncomeOrExpense(personAccount.expense) + ' €';
   },
-  deleteAndCalculateIncome: function () {
+  delete(field, what) {
     if (confirm('Are you sure you want to delete last entry?') === true) {
-      personAccount.income.splice(-1, 1);
-      fields.income.innerHTML = '';
-      for (income of personAccount.income) {
-        personAccount.display(fields.income, income.description, income.amount, income.time)
+      what.splice(-1, 1);
+      field.innerHTML = '';
+      for (let item of what) {
+        personAccount.display(field, item.description, item.amount, item.time)
       }
-      personAccount.totalIncomeOrExpense(personAccount.income);
+      personAccount.totalIncomeOrExpense(what);
       personAccount.accountBalance();
       fields.totalIncome.textContent = personAccount.totalIncomeOrExpense(personAccount.income) + ' €';
+      fields.totalExpense.textContent = personAccount.totalIncomeOrExpense(personAccount.expense) + ' €';
       fields.totalBalance.textContent = personAccount.balance + ' €';
       putInLocalStorage(personAccount.income, 'incomes')
-    }
-  },
-  deleteAndCalculateExpense: function () {
-    if (confirm('Are you sure you want to delete last entry?') === true) {
-      personAccount.expense.splice(-1, 1)
-      fields.expense.innerHTML = '';
-      for (expense of personAccount.expense) {
-        personAccount.display(fields.expense, expense.description, expense.amount, expense.time)
-      }
-      personAccount.totalIncomeOrExpense(personAccount.expense);
-      personAccount.accountBalance();
-      fields.totalExpense.textContent = '-' + personAccount.totalIncomeOrExpense(personAccount.expense) + ' €';
-      fields.totalBalance.textContent = personAccount.balance + ' €';
       putInLocalStorage(personAccount.expense, 'expenses')
     }
   },
@@ -153,10 +141,9 @@ function userIdGenerator() {
   return id
 }
 
-
 fields.add.addEventListener('click', onClickRun);
-fields.deleteIncome.addEventListener('click', personAccount.deleteAndCalculateIncome);
-fields.deleteExpense.addEventListener('click', personAccount.deleteAndCalculateExpense);
+fields.deleteIncome.addEventListener('click', () => {personAccount.delete(fields.income, personAccount.income)});
+fields.deleteExpense.addEventListener('click', () => {personAccount.delete(fields.expense, personAccount.expense)});
 
 function checkLocalStorage() {
   if (personAccount.income.length === 0 && getFromLocalStorage('incomes') !== null) {
