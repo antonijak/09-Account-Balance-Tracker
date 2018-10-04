@@ -220,22 +220,30 @@ h3 {
   line-height: 3rem;
 }
 
-form {
+.form1 {
   width: 400px;
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding: 2rem;
+  padding: 2rem 2rem;
   border: 1px solid rgb(235, 235, 235);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 
-form input {
-  margin: .5rem 0 1rem;
+.form1 input {
+  margin: 1rem 0;
   height: 2.5rem;
   padding: .5rem;
   width: 100%;
+}
+
+#login-form{
+  padding-top: 1.3rem;
+} 
+
+#login-form input {
+  margin: 0 auto;
 }
 
 p{
@@ -245,7 +253,6 @@ p{
   align-self: flex-start;
   height: 1.5rem;
   line-height: 1.5rem;
-  margin-top: 1rem;
   color: gray;
 }
 
@@ -259,7 +266,7 @@ p{
   
 }
 
-a {
+#log-in-a {
   color: rgb(255, 134, 5);
 }
 
@@ -280,9 +287,29 @@ a {
   background-color: rgb(255, 134, 5);
   height: 2.5rem;
   color: white;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
 }
 
+#submit-signup:disabled {
+  background-color: gray;
+}
+
+#submit-login {
+  margin-top: 1.7rem;
+}
+
+.helper, #wrong {
+  margin: 0 auto;
+  height: 1.8rem;
+  font-size: .7rem;
+  color: rgb(238, 113, 113, 0);
+  width: 100%;
+  
+}
+
+#wrong{
+  font-size: .8rem;
+}
 
 
 @media only screen and (max-width: 1272px){
@@ -428,7 +455,7 @@ h3 {
     font-size: .8rem;
   }
 
-  form, #login-container h3, #login-container h1 {
+  .form1, #login-container h3, #login-container h1 {
     width: 100%;
     margin: 0;
     padding: .5rem;
@@ -444,23 +471,30 @@ h3 {
     line-height: 4rem;
   }
 
-  form input {
+  .form1 input {
     width: 90%;
-    margin: 1rem auto;
+    margin: 0.5rem auto;
+    font-size: .8rem;
   }
 
-  .submit-button{
+  .submit-button {
     width: 90%;
-    margin: auto;
+    margin: 1rem auto;
+    font-size: .8rem;
   }
 
   #have-account {
     width: 90%;
     margin: auto;
+    font-size: .6rem;
   }
 
-   a {
+  #log-in-a {
     font-size: .8rem;
+  }
+
+  .helper, #wrong{
+    width: 90%;
   }
 
   

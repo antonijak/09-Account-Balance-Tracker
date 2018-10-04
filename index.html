@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,22 +9,25 @@
   <link rel="stylesheet" href="./style.css">
   <title>Sign up</title>
 </head>
+
 <body>
   <div id="login-container">
-  <h1>Bank Account</h1>
-  <h3>Create account</h3>
-  <form action="">
-    <input type="text" id="first-name" placeholder="Name*" >
-    <input type="text" id="surname" placeholder="Surname*">
-    <input type="text" id="username" placeholder="Username*">
-    <input type="text" id="password" placeholder="Password*">
-    <button id="submit-signup" class="submit-button">Sign Up</button>
-    <div id="have-account">
-    <p>Already have an account? </p>
-    <button id="log-in"><a href="./HTML/login.html">Log in</a> </button>
+    <h1>Bank Account</h1>
+    <h3>Create account</h3>
+    <div class="form1">
+      <input type="text" id="first-name" placeholder="Name*">
+      <input type="text" id="surname" placeholder="Surname*">
+      <input type="text" id="username" placeholder="Username*">
+      <input type="text" id="password" placeholder="Password*">
+      <button id="submit-signup" class="submit-button" disabled>Sign Up</button>
+      <div id="have-account">
+        <p>Already have an account? </p>
+        <button id="log-in"><a href="./HTML/login.html" id="log-in-a">Log in</a></button>
+      </div>
+    </div>
   </div>
-  </form>
-</div>
-  
+  <script src="./js/functions.js"></script>
+  <script src="./js/signup.js"></script>
 </body>
+
 </html>

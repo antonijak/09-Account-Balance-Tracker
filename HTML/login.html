@@ -12,16 +12,21 @@
   <div id="login-container">
   <h1>Bank Account</h1>
   <h3>Log Into Account</h3>
-  <form action="">
-      <input type="text" id="log-username" placeholder="Username*">
-      <input type="text" id="log-password" placeholder="Password*">
-    <button id="submit-login" class="submit-button">Log In</button>
+  <div class="form1" id="login-form">
+      <p id="wrong">Username or password not found.</p>
+      <input type="text" id="username" placeholder="Username*">
+      <p class="helper">Please enter your username.</p>
+      <input type="text" id="password" placeholder="Password*">
+      <p class="helper">Please enter your password.</p>
+      
+    <button id="submit-login" class="submit-button" >Log In</button>
     <div id="have-account">
     <p>Don't have an account? </p>
-    <button id="log-in"><a href="../index.html">Sign up</a> </button>
+    <button id="sign-up"><a href="../index.html">Sign up</a> </button>
   </div>
-  </form>
 </div>
-  
+</div>
+<script src="../js/functions.js"></script>
+<script src="../js/login.js"></script>
 </body>
 </html>

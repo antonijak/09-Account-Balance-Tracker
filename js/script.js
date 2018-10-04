@@ -19,6 +19,140 @@ const fields = {
   logPassword: document.querySelector('#log-password')
 }
 
+// class personAccount {
+  //   constructor(income, expense, balance) {
+  //     income = [],
+  //       expense = [],
+  //       balance = 0
+  //   }
+  //   totalIncome() {
+  //     let amounts = this.income.map(function (item) {
+  //       return parseInt(item.amount)
+  //     })
+  //     let sum = 0;
+  //     for (let i = 0; i < amounts.length; i++) {
+  //       sum += amounts[i]
+  //     }
+  //     return sum
+  //   }
+  //   totalExpense() {
+  //     let amounts = this.expense.map(function (item) {
+  //       return parseInt(item.amount)
+  //     })
+  //     let sum = 0;
+  //     for (let i = 0; i < amounts.length; i++) {
+  //       sum += amounts[i]
+  //     }
+  //     return sum
+  //   }
+  //   addIncome() {
+  //     let incomeKey = fields.description.value;
+  //     let incomeValue = fields.amount.value;
+  //     let incomeTime = displayDateTime();
+  //     let uniqueId = userIdGenerator();
+  //     let newIncome = {};
+  //     newIncome.description = incomeKey;
+  //     newIncome.amount = incomeValue;
+  //     newIncome.time = incomeTime;
+  //     newIncome.id = uniqueId;
+  //     this.income.push(newIncome);
+  //     this.accountBalance();
+  //     this.displayIncome(incomeKey, incomeValue, incomeTime)
+  //     putInLocalStorage(this.income, 'incomes');
+  //   }
+  //   displayIncome(incomeKey, incomeValue, incomeTime) {
+  //     let incomeI = document.createElement('div');
+  //     let dateThing = document.createElement('span');
+  //     let name = document.createElement('span');
+  //     let onlyAmount = document.createElement('span');
+  //     fields.income.appendChild(incomeI);
+  //     incomeI.appendChild(dateThing);
+  //     incomeI.appendChild(name);
+  //     incomeI.appendChild(onlyAmount);
+  //     incomeI.className = 'added-on-delete';
+  //     dateThing.innerHTML = incomeTime;
+  //     name.innerHTML = incomeKey;
+  //     name.className = 'name';
+  //     onlyAmount.innerHTML = incomeValue + ' €';
+  //     onlyAmount.className = 'amount'
+  //     let thisIncome = {};
+  //     thisIncome.incomeKey = incomeKey;
+  //     thisIncome.incomeValue = incomeValue;
+  //     thisIncome.dateTime = incomeTime;
+  //     fields.totalIncome.textContent = this.totalIncome() + ' €';
+  //   }
+  //   deleteAndCalculateIncome() {
+  //     if (confirm('Are you sure you want to delete last entry?') === true) {
+  //       personAccount.income.splice(-1, 1);
+  //       console.log(personAccount.income);
+  //       fields.income.innerHTML = '';
+  //       for (income of personAccount.income) {
+  //         personAccount.displayIncome(income.description, income.amount, income.time)
+  //       }
+  //       personAccount.totalIncome();
+  //       personAccount.accountBalance();
+  //       fields.totalIncome.textContent = personAccount.totalIncome() + ' €';
+  //       fields.totalBalance.textContent = personAccount.balance + ' €';
+  //       putInLocalStorage(personAccount.income, 'incomes')
+  //     }
+  //   }
+  //   addExpense() {
+  //     let expenseKey = fields.description.value;
+  //     let expenseValue = fields.amount.value;
+  //     let expenseTime = displayDateTime();
+  //     let uniqueId = userIdGenerator();
+  //     let newExpense = {};
+  //     newExpense.description = expenseKey;
+  //     newExpense.amount = expenseValue;
+  //     newExpense.time = expenseTime;
+  //     newExpense.id = uniqueId;
+  //     this.expense.push(newExpense);
+  //     this.accountBalance();
+  //     this.displayExpense(expenseKey, expenseValue, expenseTime);
+  //     putInLocalStorage(this.expense, 'expenses');
+  //   }
+  //   displayExpense(expenseKey, expenseValue, expenseTime) {
+  //     let expenseI = document.createElement('div');
+  //     let dateThing = document.createElement('span');
+  //     let name = document.createElement('span');
+  //     let onlyAmount = document.createElement('span');
+  //     fields.expense.appendChild(expenseI);
+  //     expenseI.appendChild(dateThing);
+  //     expenseI.appendChild(name);
+  //     expenseI.appendChild(onlyAmount);
+  //     expenseI.className = 'added-on-delete';
+  //     dateThing.innerHTML = expenseTime;
+  //     name.innerHTML = expenseKey;
+  //     name.className = 'name';
+  //     onlyAmount.innerHTML = '-' + expenseValue + ' €';
+  //     onlyAmount.className = 'amount'
+  //     fields.totalExpense.textContent = '-' + this.totalExpense() + ' €';
+  //   }
+  //   deleteAndCalculateExpense() {
+  //     if (confirm('Are you sure you want to delete last entry?') === true) {
+  //       personAccount.expense.splice(-1, 1)
+  //       fields.expense.innerHTML = '';
+  //       for (expense of personAccount.expense) {
+  //         personAccount.displayExpense(expense.description, expense.amount, expense.time)
+  //       }
+  //       personAccount.totalExpense();
+  //       personAccount.accountBalance();
+  //       fields.totalExpense.textContent = '-' + personAccount.totalExpense() + ' €';
+  //       fields.totalBalance.textContent = personAccount.balance + ' €';
+  //       putInLocalStorage(personAccount.expense, 'expenses')
+  //     }
+  //   }
+  //   accountBalance() {
+  //     this.balance = this.totalIncome() - this.totalExpense();
+  //     if (this.balance < 0) {
+  //       fields.totalBalance.style.color = 'red';
+  //     } else {
+  //       fields.totalBalance.style.color = 'black';
+  //     }
+  //     return this.balance
+  //   }
+  // }
+
 let personAccount = {
   income: [],
   expense: [],
@@ -197,18 +331,7 @@ function userIdGenerator (){
     return id
   }
 
-
-  function putInLocalStorage (arr, local){
-    let bla = JSON.stringify(arr);
-    localStorage.setItem(local, bla);
-  }
   
-  function getFromLocalStorage (local){
-    let result = JSON.parse(localStorage.getItem(local));
-    return result
-  }
-  
-
 fields.add.addEventListener('click', onClickRun);
 fields.deleteIncome.addEventListener('click', personAccount.deleteAndCalculateIncome);
 fields.deleteExpense.addEventListener('click', personAccount.deleteAndCalculateExpense);
@@ -231,6 +354,3 @@ function checkLocalStorage (){
 
 checkLocalStorage ()
 
-if (fields.firstName !== null && fields.surname !== null && fields.username !== null && fields.password !== null && ){
-  
-}
