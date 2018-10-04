@@ -44,40 +44,36 @@ let personAccount = {
     what.push(newIncome);
     this.accountBalance();
     if (name === 'income'){
-      this.displayIncome(ieKey, ieValue, ieTime)
+      this.display(fields.income, ieKey, ieValue, ieTime)
     } else {
-      this.displayExpense(ieKey, ieValue, ieTime);
+      this.display(fields.expense, ieKey, ieValue, ieTime);
     }
     putInLocalStorage(what, name + 's');
   },
-  displayIncome: function (incomeKey, incomeValue, incomeTime) {
+  display: function (field, key, value, time) {
     let incomeI = document.createElement('div');
     let dateThing = document.createElement('span');
     let name = document.createElement('span');
     let onlyAmount = document.createElement('span');
-    fields.income.appendChild(incomeI);
+    field.appendChild(incomeI);
     incomeI.appendChild(dateThing);
     incomeI.appendChild(name);
     incomeI.appendChild(onlyAmount);
     incomeI.className = 'added-on-delete';
-    dateThing.innerHTML = incomeTime;
-    name.innerHTML = incomeKey;
     name.className = 'name';
-    onlyAmount.innerHTML = incomeValue + ' €';
     onlyAmount.className = 'amount'
-    let thisIncome = {};
-    thisIncome.incomeKey = incomeKey;
-    thisIncome.incomeValue = incomeValue;
-    thisIncome.dateTime = incomeTime;
+    dateThing.innerHTML = time;
+    name.innerHTML = key;
+    onlyAmount.innerHTML = value + ' €';
     fields.totalIncome.textContent = this.totalIncomeOrExpense(personAccount.income) + ' €';
+    fields.totalExpense.textContent = this.totalIncomeOrExpense(personAccount.expense) + ' €';
   },
   deleteAndCalculateIncome: function () {
     if (confirm('Are you sure you want to delete last entry?') === true) {
       personAccount.income.splice(-1, 1);
-      console.log(personAccount.income);
       fields.income.innerHTML = '';
       for (income of personAccount.income) {
-        personAccount.displayIncome(income.description, income.amount, income.time)
+        personAccount.display(fields.income, income.description, income.amount, income.time)
       }
       personAccount.totalIncomeOrExpense(personAccount.income);
       personAccount.accountBalance();
@@ -86,29 +82,12 @@ let personAccount = {
       putInLocalStorage(personAccount.income, 'incomes')
     }
   },
-  displayExpense: function (expenseKey, expenseValue, expenseTime) {
-    let expenseI = document.createElement('div');
-    let dateThing = document.createElement('span');
-    let name = document.createElement('span');
-    let onlyAmount = document.createElement('span');
-    fields.expense.appendChild(expenseI);
-    expenseI.appendChild(dateThing);
-    expenseI.appendChild(name);
-    expenseI.appendChild(onlyAmount);
-    expenseI.className = 'added-on-delete';
-    dateThing.innerHTML = expenseTime;
-    name.innerHTML = expenseKey;
-    name.className = 'name';
-    onlyAmount.innerHTML = '-' + expenseValue + ' €';
-    onlyAmount.className = 'amount'
-    fields.totalExpense.textContent = '-' + this.totalIncomeOrExpense(personAccount.expense) + ' €';
-  },
   deleteAndCalculateExpense: function () {
     if (confirm('Are you sure you want to delete last entry?') === true) {
       personAccount.expense.splice(-1, 1)
       fields.expense.innerHTML = '';
       for (expense of personAccount.expense) {
-        personAccount.displayExpense(expense.description, expense.amount, expense.time)
+        personAccount.display(fields.expense, expense.description, expense.amount, expense.time)
       }
       personAccount.totalIncomeOrExpense(personAccount.expense);
       personAccount.accountBalance();
@@ -185,7 +164,7 @@ function checkLocalStorage() {
     array.forEach(element => {
       personAccount.income.push(element)
     });
-    personAccount.income.forEach(income => personAccount.displayIncome(income.description, income.amount, income.time))
+    personAccount.income.forEach(income => personAccount.display(fields.income, income.description, income.amount, income.time))
   }
 
   if (personAccount.expense.length === 0 && getFromLocalStorage('expenses') !== null) {
@@ -193,7 +172,7 @@ function checkLocalStorage() {
     array1.forEach(element => {
       personAccount.expense.push(element)
     });
-    personAccount.expense.forEach(expense => personAccount.displayExpense(expense.description, expense.amount, expense.time))
+    personAccount.expense.forEach(expense => personAccount.display(fields.expense, expense.description, expense.amount, expense.time))
   }
   personAccount.accountBalance();
   fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
