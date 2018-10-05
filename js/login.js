@@ -6,31 +6,32 @@ const signupFields = {
   wrong: document.querySelector('#wrong')
 }
 
+
 let existingUsers = getFromLocalStorage('users');
-signupFields.logIn.addEventListener('click', right);
+signupFields.logIn.addEventListener('click', userValidation);
 
-
-function right() {
+function userValidation() {
   for (let e of signupFields.helper) {
     e.style.color = 'rgb(238, 113, 113, 0)';
   }
-
   signupFields.wrong.style.color = 'rgb(238, 113, 113, 0)';
   if (signupFields.username.value && signupFields.password.value) {
-    existingUsers.forEach(element => {
-      if (element.username === signupFields.username.value && element.password === signupFields.password.value) {
-        window.location.href = './account.html';
-      } else {
-        
-        signupFields.wrong.style.color = 'rgb(238, 113, 113, 1)';
-      }
-    })
+    if (existingUsers) {
+      existingUsers.forEach(element => {
+        if (element.username === signupFields.username.value && element.password === signupFields.password.value) {
+          window.location.href = './account.html';
+        } else {
+
+          signupFields.wrong.style.color = 'rgb(238, 113, 113, 1)';
+        }
+      })
+    }
   } else {
-    
+
     for (let e of signupFields.helper) {
       e.style.color = 'rgb(238, 113, 113, 1)';
     }
   }
   signupFields.username.value = '';
-        signupFields.password.value = '';
+  signupFields.password.value = '';
 }

@@ -37,7 +37,7 @@ let personAccount = {
     newIncome.id = uniqueId;
     what.push(newIncome);
     this.accountBalance();
-    if (name === 'income'){
+    if (name === 'income') {
       this.display(fields.income, ieKey, ieValue, ieTime)
     } else {
       this.display(fields.expense, ieKey, ieValue, ieTime);
@@ -58,9 +58,13 @@ let personAccount = {
     onlyAmount.className = 'amount'
     dateThing.innerHTML = time;
     name.innerHTML = key;
-    onlyAmount.innerHTML = value + ' €';
+    if (field === fields.expense) {
+      onlyAmount.innerHTML = '-' + value + ' €';
+    } else {
+      onlyAmount.innerHTML = value + ' €';
+    }
     fields.totalIncome.textContent = this.total(personAccount.income) + ' €';
-    fields.totalExpense.textContent = this.total(personAccount.expense) + ' €';
+    fields.totalExpense.textContent = '-' + this.total(personAccount.expense) + ' €';
   },
   delete(field, what) {
     if (confirm('Are you sure you want to delete last entry?') === true) {
@@ -85,78 +89,44 @@ let personAccount = {
     } else {
       fields.totalBalance.style.color = 'black';
     }
+    fields.totalBalance.textContent = `${this.balance.toString()} €`;
     return this.balance
   }
 }
 
-function onClickRun() {
+function addIncomeOrExpense() {
+  if (fields.transactionType.value === 'income') {
+    personAccount.add(personAccount.income, 'income');
+  } else {
+    personAccount.add(personAccount.expense, 'expense');
+  }
+}
+
+function validation() {
   if (fields.description.value && fields.amount.value && isFinite(fields.amount.value)) {
     fields.warning.style.bottom = '2000px';
     fields.description.removeAttribute('class', 'attention');
     fields.amount.removeAttribute('class', 'attention');
-    if (fields.transactionType.value === 'income') {
-      personAccount.add(personAccount.income, 'income');
-      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
-    } else {
-      personAccount.add(personAccount.expense, 'expense');
-      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
-    }
+    addIncomeOrExpense()
+    fields.description.value = '';
+    fields.amount.value = '';
   } else {
     fields.description.className = 'attention';
     fields.amount.className = 'attention';
     fields.warning.style.bottom = '-20px';
-  }
-  fields.description.value = '';
-  fields.amount.value = '';
-}
-
-function numbersWithZero(number) {
-  return String("000" + number).slice(-2);
-}
-
-function displayDateTime() {
-  var date = new Date();
-  var day = numbersWithZero(date.getDate());
-  var month = numbersWithZero(date.getMonth() + 1);
-  var year = date.getFullYear();
-  var hour = numbersWithZero(date.getHours());
-  var minutes = numbersWithZero(date.getMinutes());
-  return `<span id= "date">${day}/${month}/${year}</span> <span id= "time">${hour}:${minutes}</span>`
-}
-
-function userIdGenerator() {
-  var characters = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
-  var id = '';
-  for (i = 0; i < 7; i++) {
-    var random = Math.floor(Math.random() * 35);
-    id = id.concat(characters.charAt(random));
-  }
-  return id
-}
-
-fields.add.addEventListener('click', onClickRun);
-fields.deleteIncome.addEventListener('click', () => {personAccount.delete(fields.income, personAccount.income)});
-fields.deleteExpense.addEventListener('click', () => {personAccount.delete(fields.expense, personAccount.expense)});
-
-function checkLocalStorage() {
-  if (personAccount.income.length === 0 && getFromLocalStorage('incomes') !== null) {
-    let array = getFromLocalStorage('incomes');
-    array.forEach(element => {
-      personAccount.income.push(element)
-    });
-    personAccount.income.forEach(income => personAccount.display(fields.income, income.description, income.amount, income.time))
-  }
-
-  if (personAccount.expense.length === 0 && getFromLocalStorage('expenses') !== null) {
-    let array1 = getFromLocalStorage('expenses');
-    array1.forEach(element => {
-      personAccount.expense.push(element)
-    });
-    personAccount.expense.forEach(expense => personAccount.display(fields.expense, expense.description, expense.amount, expense.time))
+    fields.description.value = '';
+    fields.amount.value = '';
   }
   personAccount.accountBalance();
-  fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
 }
 
-checkLocalStorage()
+fields.add.addEventListener('click', validation);
+fields.deleteIncome.addEventListener('click', () => {personAccount.delete(fields.income, personAccount.income)
+});
+fields.deleteExpense.addEventListener('click', () => {
+  personAccount.delete(fields.expense, personAccount.expense)
+});
+
+
+checkLocalStorage(personAccount.income, 'incomes', fields.income);
+checkLocalStorage(personAccount.expense, 'expenses', fields.expense);
