@@ -6,7 +6,6 @@ const signupFields = {
   wrong: document.querySelector('#wrong')
 }
 
-
 let existingUsers = getFromLocalStorage('users');
 signupFields.logIn.addEventListener('click', userValidation);
 

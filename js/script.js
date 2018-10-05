@@ -26,52 +26,26 @@ let personAccount = {
     return sum
   },
   add(what, name) {
-    let ieKey = fields.description.value;
-    let ieValue = fields.amount.value;
-    let ieTime = displayDateTime();
-    let uniqueId = userIdGenerator();
-    let newIncome = {};
-    newIncome.description = ieKey;
-    newIncome.amount = ieValue;
-    newIncome.time = ieTime;
-    newIncome.id = uniqueId;
+    let description = fields.description.value;
+    let amount = fields.amount.value;
+    let time = displayDateTime();
+    let id = userIdGenerator();
+    let newIncome = {description, amount, time, id};
     what.push(newIncome);
     this.accountBalance();
     if (name === 'income') {
-      this.display(fields.income, ieKey, ieValue, ieTime)
+      display(fields.income, description, amount, time)
     } else {
-      this.display(fields.expense, ieKey, ieValue, ieTime);
+      display(fields.expense, description, amount, time);
     }
     putInLocalStorage(what, name + 's');
-  },
-  display(field, key, value, time) {
-    let incomeI = document.createElement('div');
-    let dateThing = document.createElement('span');
-    let name = document.createElement('span');
-    let onlyAmount = document.createElement('span');
-    field.appendChild(incomeI);
-    incomeI.appendChild(dateThing);
-    incomeI.appendChild(name);
-    incomeI.appendChild(onlyAmount);
-    incomeI.className = 'added-on-delete';
-    name.className = 'name';
-    onlyAmount.className = 'amount'
-    dateThing.innerHTML = time;
-    name.innerHTML = key;
-    if (field === fields.expense) {
-      onlyAmount.innerHTML = '-' + value + ' €';
-    } else {
-      onlyAmount.innerHTML = value + ' €';
-    }
-    fields.totalIncome.textContent = this.total(personAccount.income) + ' €';
-    fields.totalExpense.textContent = '-' + this.total(personAccount.expense) + ' €';
   },
   delete(field, what) {
     if (confirm('Are you sure you want to delete last entry?') === true) {
       what.splice(-1, 1);
       field.innerHTML = '';
       for (let item of what) {
-        personAccount.display(field, item.description, item.amount, item.time)
+        display(field, item.description, item.amount, item.time)
       }
       personAccount.total(what);
       personAccount.accountBalance();
@@ -102,6 +76,29 @@ function addIncomeOrExpense() {
   }
 }
 
+function display(field, key, value, time) {
+  let incomeI = document.createElement('div');
+  let dateThing = document.createElement('span');
+  let name = document.createElement('span');
+  let onlyAmount = document.createElement('span');
+  field.appendChild(incomeI);
+  incomeI.appendChild(dateThing);
+  incomeI.appendChild(name);
+  incomeI.appendChild(onlyAmount);
+  incomeI.className = 'added-on-delete';
+  name.className = 'name';
+  onlyAmount.className = 'amount'
+  dateThing.innerHTML = time;
+  name.innerHTML = key;
+  if (field === fields.expense) {
+    onlyAmount.innerHTML = '-' + value + ' €';
+  } else {
+    onlyAmount.innerHTML = value + ' €';
+  }
+  fields.totalIncome.textContent = personAccount.total(personAccount.income) + ' €';
+  fields.totalExpense.textContent = '-' + personAccount.total(personAccount.expense) + ' €';
+}
+
 function validation() {
   if (fields.description.value && fields.amount.value && isFinite(fields.amount.value)) {
     fields.warning.style.bottom = '2000px';
@@ -127,6 +124,18 @@ fields.deleteExpense.addEventListener('click', () => {
   personAccount.delete(fields.expense, personAccount.expense)
 });
 
+
+function checkLocalStorage(what, local, field) {
+  if (getFromLocalStorage('incomes') && getFromLocalStorage('expenses')) {
+      let array = getFromLocalStorage(local);
+      array.forEach(element => {
+        what.push(element)
+      });
+      what.forEach(item => display(field, item.description, item.amount, item.time))
+      personAccount.accountBalance();
+      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
+    }
+  } 
 
 checkLocalStorage(personAccount.income, 'incomes', fields.income);
 checkLocalStorage(personAccount.expense, 'expenses', fields.expense);

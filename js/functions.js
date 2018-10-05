@@ -32,16 +32,3 @@ function userIdGenerator() {
   }
   return id
 }
-
-function checkLocalStorage(what, local, field) {
-  if (getFromLocalStorage('incomes') && getFromLocalStorage('expenses')) {
-      let array = getFromLocalStorage(local);
-      array.forEach(element => {
-        what.push(element)
-      });
-      what.forEach(item => personAccount.display(field, item.description, item.amount, item.time))
-      personAccount.accountBalance();
-      fields.totalBalance.textContent = `${personAccount.balance.toString()} €`;
-    }
-  }
-  
