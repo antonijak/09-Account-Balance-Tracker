@@ -7,7 +7,7 @@ body {
   background-color: white;
   color: rgb(69, 67, 67);
   font-family: 'Roboto', sans-serif;
-  
+  background-color: rgb(249, 249, 249);
 }
 
 #wrapper {
@@ -94,8 +94,12 @@ h3 {
   width: 40%;
 }
 
-#income-container h3, #balance-container h3  {
+#income-container h3 {
   border-top-left-radius: 5px;
+}
+
+#balance-container h3 {
+  border-top-right-radius: 5px;
 }
 
 #income, #expense {
@@ -132,6 +136,7 @@ h3 {
 
 #balance-container{
   width: 20%;
+  border-top-right-radius: 5px;
 }
 
 #balance {
@@ -326,6 +331,10 @@ p{
     width: 57%;
   }
 
+  #balance-container h3 {
+    border-top-right-radius: 0;
+  }
+
 }
 @media only screen and (max-width: 1087px){
 
@@ -367,7 +376,7 @@ p{
     width: 50%;
   }
 
-  #expense-container h3, #balance-container h3 {
+  #expense-container h3 {
     border-top-right-radius: 5px;
   }
 
@@ -406,12 +415,15 @@ p{
 
   #income-container, #expense-container,#input-container  {
     width: 100%;
-    border-top-right-radius: 5px;
   }
 
-h3 {
+  #income-container h3 {
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
+  }
+
+  #expense-container  h3 ,#input-container h3 {
+    border-radius: 0;
   }
 }
 
