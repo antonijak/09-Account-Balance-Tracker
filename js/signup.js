@@ -16,6 +16,31 @@ const loginFields = [
   }
 ]
 
+
+
+function checkUsername() {
+
+  let result = existingUsers.filter(existingUser => {
+    if (loginFields[2].field.value === existingUser.username) {
+      return existingUser
+    }
+  })
+
+  if (result === 0) {
+    loginFields[2].message.innerHTML= 'Username required';
+    return true
+  } else {
+    loginFields[2].field.style.border = '1px solid rgb(250, 94, 94)';
+    
+    loginFields[2].message.innerHTML= 'Username already exists';
+    loginFields[2].message.style.display = 'block';
+    console.log(loginFields[2].message.value );
+    
+    return false
+  }
+}
+
+
 const password = {
   field: document.querySelector('#password'),
   message: document.querySelector('#password-message'),
@@ -26,7 +51,7 @@ const signup = document.querySelector('#submit-signup');
 signup.addEventListener('click', signUp1);
 
 
-let users = getFromLocalStorage('users') || [];
+let existingUsers = getFromLocalStorage('users') || [];
 
 
 function signUp1() {
@@ -37,13 +62,13 @@ function signUp1() {
       username: loginFields[2].field.value,
       password: password.field.value
     }
-    users.push(newUser);
-    putInLocalStorage(users, 'users');
+    existingUsers.push(newUser);
+    putInLocalStorage(existingUsers, 'users');
     window.location.href = './HTML/login.html';
   } else {
-   
+
     passwordValidation();
-     alert('no');
+    alert('no');
   }
 }
 
@@ -80,8 +105,8 @@ function validateAllInputs() {
 }
 
 function passwordValidation() {
- 
- console.log(password.field.value);
+
+  console.log(password.field.value);
 
   if (password.field.value && password.field.value.match(password.validation) && password.field.value.match(password.validation) == password.field.value) {
     password.field.style.border = '1px solid green';
@@ -94,6 +119,7 @@ function passwordValidation() {
 
 loginFields.forEach(item => item.field.addEventListener('change', () => {
   inputValidation(item.field, item.message, item.validation)
+  checkUsername()
 }));
 password.field.addEventListener('input', () => {
   passwordValidation(password.field, password.message, password.validation)

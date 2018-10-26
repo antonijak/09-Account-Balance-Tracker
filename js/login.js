@@ -14,24 +14,25 @@ function userValidation() {
   signupFields.helpers[1].style.color = 'rgb(238, 113, 113, 0)';
   signupFields.wrong.style.color = 'rgb(238, 113, 113, 0)';
 
-// if user wrote username and password
+  // if user wrote username and password
   if (signupFields.username.value && signupFields.password.value) {
     //if we have users in localStorage
     if (existingUsers) {
-      let count;
-      existingUsers.forEach(existingUser => {
+      //find existing user
+      let count = existingUsers.filter(existingUser => {
         if (existingUser.username === signupFields.username.value && existingUser.password === signupFields.password.value) {
-          window.location.href = './account.html';
-          count = true 
-        }  
+          return existingUser
+        }
       })
-
-      if (!count) {
+      
+      if (count.length === 0) {
         signupFields.wrong.style.color = 'rgb(238, 113, 113, 1)';
+      } else {
+        window.location.href = './account.html';
       }
     }
   } else {
-     
+
     for (let helper of signupFields.helpers) {
       helper.style.color = 'rgb(238, 113, 113, 1)';
     }
