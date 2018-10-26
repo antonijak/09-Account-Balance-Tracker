@@ -13,13 +13,14 @@ const loginFields = [
     field: document.querySelector('#username'),
     message: document.querySelector('#username-message'),
     validation: /[A-Za-z\_\.\-]{3,14}/
-  },
-  password = {
-    field: document.querySelector('#password'),
-    message: document.querySelector('#password-message'),
-    validation: /.{8,14}/g
   }
 ]
+
+const password = {
+  field: document.querySelector('#password'),
+  message: document.querySelector('#password-message'),
+  validation: /.{8,14}/g
+}
 
 const signup = document.querySelector('#submit-signup');
 signup.addEventListener('click', signUp1);
@@ -29,34 +30,74 @@ let users = getFromLocalStorage('users') || [];
 
 
 function signUp1() {
-  let newUser = {
-    name: loginFields[0].field.value,
-    surname: loginFields[1].field.value,
-    username: loginFields[2].field.value,
-    password: loginFields[3].field.value
+  if (validateAllInputs() && password.field.value) {
+    let newUser = {
+      name: loginFields[0].field.value,
+      surname: loginFields[1].field.value,
+      username: loginFields[2].field.value,
+      password: password.field.value
+    }
+    users.push(newUser);
+    putInLocalStorage(users, 'users');
+    window.location.href = './HTML/login.html';
+  } else {
+   
+    passwordValidation();
+     alert('no');
   }
-
-  users.push(newUser);
-  putInLocalStorage(users, 'users');
-  window.location.href = './HTML/login.html';
 }
 
 const inputValidation = (field, message, validation) => {
-  field.addEventListener('input', () => {
-    console.log('change');
-    
-      if (field.value.match(validation) && field.value.match(validation) == field.value) {
-        field.style.border = '1px solid green';
-        message.style.display = 'none';
-      } else {
-        field.style.border = '1px solid rgb(250, 94, 94)';
-        message.style.display = 'block';
-      }
-  })
+
+  if (field.value.match(validation) && field.value.match(validation) == field.value) {
+    field.style.border = '1px solid green';
+    message.style.display = 'none';
+  } else {
+    field.style.border = '1px solid rgb(250, 94, 94)';
+    message.style.display = 'block';
+    field.value = null;
+
+  }
 }
 
-loginFields.forEach(item => inputValidation(item.field, item.message, item.validation));
 
+function validateAllInputs() {
+  let count = 0;
+  loginFields.forEach(item => {
+    if (item.field.value) {
+      count++
+      item.message.style.display = 'none';
+    } else {
+      item.field.style.border = '1px solid rgb(250, 94, 94)';
+      item.message.style.display = 'block';
+    }
+  })
+  if (count === loginFields.length) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function passwordValidation() {
+ 
+ console.log(password.field.value);
+
+  if (password.field.value && password.field.value.match(password.validation) && password.field.value.match(password.validation) == password.field.value) {
+    password.field.style.border = '1px solid green';
+    password.message.style.display = 'none';
+  } else {
+    password.field.style.border = '1px solid rgb(250, 94, 94)';
+    password.message.style.display = 'block';
+  }
+}
+
+loginFields.forEach(item => item.field.addEventListener('change', () => {
+  inputValidation(item.field, item.message, item.validation)
+}));
+password.field.addEventListener('input', () => {
+  passwordValidation(password.field, password.message, password.validation)
+})
 
 
 // if('valid'){

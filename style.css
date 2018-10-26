@@ -261,17 +261,18 @@ p{
   color: gray;
 }
 
-#log-in  {
+#log-in, #sign-up {
   width: 30%;
   text-align: right;
   display: inline-block;
   align-self: flex-end;
   height: 1.5rem;
   line-height: 1.5rem;
-  
+  background-color: rgb(249, 249, 249);
+
 }
 
-#log-in-a {
+#log-in a, #sign-up a {
   color: rgb(255, 134, 5);
 }
 
