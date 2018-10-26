@@ -303,6 +303,15 @@ p{
   margin-top: 1.7rem;
 }
 
+.validation-message {
+  display: none;
+  color: red;
+  font-size: .8rem;
+  height: .8rem;
+  margin-bottom: -.5rem;
+  padding-left: .3rem;
+}
+
 .helper, #wrong {
   margin: 0 auto;
   height: 1.8rem;

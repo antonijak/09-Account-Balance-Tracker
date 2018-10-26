@@ -15,10 +15,15 @@
     <h1>Bank Account</h1>
     <h3>Create account</h3>
     <div class="form1">
-      <input type="text" id="first-name" placeholder="Name*">
-      <input type="text" id="surname" placeholder="Surname*">
+      <span id="first-name-message" class="validation-message">First name required</span>
+      <input type="text" id="first-name" placeholder="First Name*">
+      <span id="surname-message" class="validation-message">Last name required</span>
+      <input type="text" id="surname" placeholder="Last Name*">
+      <span id="username-message" class="validation-message">Username required</span>
       <input type="text" id="username" placeholder="Username*">
-      <input type="text" id="password" placeholder="Password*">
+      <span id="password-message" class="validation-message">Password longer than 8 characters required</span>
+      <input type="password" id="password" placeholder="Password*">
+
       <button id="submit-signup" class="submit-button" disabled>Sign Up</button>
       <div id="have-account">
         <p>Already have an account? </p>
