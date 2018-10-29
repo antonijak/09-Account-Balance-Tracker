@@ -16,30 +16,7 @@ const loginFields = [
   }
 ]
 
-
-
-function checkUsername() {
-
-  let result = existingUsers.filter(existingUser => {
-    if (loginFields[2].field.value === existingUser.username) {
-      return existingUser
-    }
-  })
-
-  if (result === 0) {
-    loginFields[2].message.innerHTML= 'Username required';
-    return true
-  } else {
-    loginFields[2].field.style.border = '1px solid rgb(250, 94, 94)';
-    
-    loginFields[2].message.innerHTML= 'Username already exists';
-    loginFields[2].message.style.display = 'block';
-    console.log(loginFields[2].message.value );
-    
-    return false
-  }
-}
-
+let existingUsers = getFromLocalStorage('users') || [];
 
 const password = {
   field: document.querySelector('#password'),
@@ -48,31 +25,9 @@ const password = {
 }
 
 const signup = document.querySelector('#submit-signup');
-signup.addEventListener('click', signUp1);
 
 
-let existingUsers = getFromLocalStorage('users') || [];
-
-
-function signUp1() {
-  if (validateAllInputs() && password.field.value) {
-    let newUser = {
-      name: loginFields[0].field.value,
-      surname: loginFields[1].field.value,
-      username: loginFields[2].field.value,
-      password: password.field.value
-    }
-    existingUsers.push(newUser);
-    putInLocalStorage(existingUsers, 'users');
-    window.location.href = './HTML/login.html';
-  } else {
-
-    passwordValidation();
-    alert('no');
-  }
-}
-
-const inputValidation = (field, message, validation) => {
+function inputValidation(field, message, validation){
 
   if (field.value.match(validation) && field.value.match(validation) == field.value) {
     field.style.border = '1px solid green';
@@ -82,6 +37,38 @@ const inputValidation = (field, message, validation) => {
     message.style.display = 'block';
     field.value = null;
 
+  }
+}
+
+
+function passwordValidation() {
+  if (password.field.value && password.field.value.match(password.validation) && password.field.value.match(password.validation) == password.field.value) {
+    password.field.style.border = '1px solid green';
+    password.message.style.display = 'none';
+  } else {
+    password.field.style.border = '1px solid rgb(250, 94, 94)';
+    password.message.style.display = 'block';
+  }
+}
+
+
+function checkifUsernameExists() {
+  let result = existingUsers.filter(existingUser => {
+    if (loginFields[2].field.value === existingUser.username) {
+      return existingUser
+    }
+  })
+
+  if(loginFields[2].field.value.length === 0 && result.length === 0){
+    loginFields[2].message.innerHTML= 'Username required';
+  } else if (loginFields[2].field.value.length !== 0 && result.length === 0) {
+    loginFields[2].field.style.border = '1px solid green';
+    loginFields[2].message.style.display = 'none';
+  } else {
+    loginFields[2].field.style.border = '1px solid rgb(250, 94, 94)';
+    loginFields[2].message.innerHTML= 'Username already exists';
+    loginFields[2].message.style.display = 'block';
+    loginFields[2].field.value = null;
   }
 }
 
@@ -104,30 +91,36 @@ function validateAllInputs() {
   }
 }
 
-function passwordValidation() {
 
-  console.log(password.field.value);
-
-  if (password.field.value && password.field.value.match(password.validation) && password.field.value.match(password.validation) == password.field.value) {
-    password.field.style.border = '1px solid green';
-    password.message.style.display = 'none';
+function signUp() {
+  if (validateAllInputs() && password.field.value) {
+    let newUser = {
+      name: loginFields[0].field.value,
+      surname: loginFields[1].field.value,
+      username: loginFields[2].field.value,
+      password: password.field.value
+    }
+    existingUsers.push(newUser);
+    putInLocalStorage(existingUsers, 'users');
+    window.location.href = './HTML/login.html';
   } else {
-    password.field.style.border = '1px solid rgb(250, 94, 94)';
-    password.message.style.display = 'block';
+    alert('Please fill all the required fields')
+    passwordValidation();
   }
 }
 
-loginFields.forEach(item => item.field.addEventListener('change', () => {
-  inputValidation(item.field, item.message, item.validation)
-  checkUsername()
-}));
+for(let i = 0; i < 2; i++){
+  loginFields[i].field.addEventListener('change', () => {
+    inputValidation(loginFields[i].field, loginFields[i].message, loginFields[i].validation)
+  });
+}
+
+loginFields[2].field.addEventListener('change', checkifUsernameExists);
+
+
 password.field.addEventListener('input', () => {
-  passwordValidation(password.field, password.message, password.validation)
+  passwordValidation()
 })
 
+signup.addEventListener('click', signUp);
 
-// if('valid'){
-//   signup.removeAttribute('disabled');
-// } else {
-//   signup.setAttribute('disabled', 'true');
-// }
